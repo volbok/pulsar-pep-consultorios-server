@@ -2485,3 +2485,104 @@ app.get("/delete_aprazamento/:id", (req, res) => {
   });
 });
 
+// LABORATÓRIO.
+
+//listar opções de exmaes laboratoriais.
+app.get("/opcoes_laboratorio", (req, res) => {
+  var sql = "SELECT * FROM opcoes_laboratorio";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// listar exames laboratoriais solicitados.
+app.get("/atendimento_laboratorio/:id_atendimento", (req, res) => {
+  const id_atendimento = req.params.id_atendimento;
+  var sql = "SELECT * FROM atendimento_laboratorio WHERE id_atendimento = $1";
+  pool.query(sql, [id_atendimento], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de aprazamento.
+app.post("/insert_laboratorio", (req, res) => {
+  const {
+    id_paciente,
+    id_atendimento,
+    data_pedido,
+    data_resultado,
+    codigo_exame,
+    nome_exame,
+    material,
+    resultado,
+    status
+  } = req.body;
+  var sql =
+    "INSERT INTO atendimento_laboratorio (id_paciente, id_atendimento, data_pedido, data_resultado, codigo_exame, nome_exame, material, resultado, status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+  pool.query(
+    sql,
+    [
+      id_paciente,
+      id_atendimento,
+      data_pedido,
+      data_resultado,
+      codigo_exame,
+      nome_exame,
+      material,
+      resultado,
+      status
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar registro de exame laboratorial.
+app.post("/update_laboratorio/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    id_paciente,
+    id_atendimento,
+    data_pedido,
+    data_resultado,
+    codigo_exame,
+    nome_exame,
+    material,
+    resultado,
+    status
+  } = req.body;
+  var sql =
+    "UPDATE atendimento_laboratorio SET id_paciente = $1, id_atendimento = $2, data_pedido = $3, data_resultado = $4, codigo_exame = $5, nome_exame = $6, material  = $7, resultado = $8,  status = $9 WHERE id = $10";
+  pool.query(
+    sql,
+    [
+      id_paciente,
+      id_atendimento,
+      data_pedido,
+      data_resultado,
+      codigo_exame,
+      nome_exame,
+      material,
+      resultado,
+      status,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir exame laboratorial solicitado.
+app.get("/delete_laboratorio/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM atendimento_laboratorio WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
