@@ -630,7 +630,6 @@ app.get("/delete_risco/:id_risco", (req, res) => {
 });
 
 // ATENDIMENTOS.
-
 // listar todos os atendimentos registrados.
 app.get("/all_atendimentos", (req, res) => {
   var sql =
