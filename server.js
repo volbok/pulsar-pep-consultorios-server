@@ -2506,6 +2506,15 @@ app.get("/atendimento_laboratorio/:id_atendimento", (req, res) => {
   });
 });
 
+// listar todos os exames laboratoriais (tela do laboratório).
+app.get("/all_laboratorio", (req, res) => {
+  var sql = "SELECT * FROM atendimento_laboratorio";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
 // inserir registro de aprazamento.
 app.post("/insert_laboratorio", (req, res) => {
   const {
