@@ -630,6 +630,17 @@ app.get("/delete_risco/:id_risco", (req, res) => {
 });
 
 // ATENDIMENTOS.
+
+// listar todos os atendimentos registrados.
+app.get("/all_atendimentos", (req, res) => {
+  var sql =
+    "SELECT * FROM atendimento";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
 // listar todos os atendimentos do paciente selecionado.
 app.get("/list_atendimentos/:id_unidade", verifyJWT, (req, res) => {
   const id_unidade = parseInt(req.params.id_unidade);
@@ -2486,7 +2497,6 @@ app.get("/delete_aprazamento/:id", (req, res) => {
 });
 
 // LABORATÓRIO.
-
 //listar opções de exmaes laboratoriais.
 app.get("/opcoes_laboratorio", (req, res) => {
   var sql = "SELECT * FROM opcoes_laboratorio";
