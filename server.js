@@ -2496,15 +2496,6 @@ app.get("/delete_aprazamento/:id", (req, res) => {
 });
 
 // LABORATÓRIO.
-//listar opções de exmaes laboratoriais.
-app.get("/opcoes_laboratorio", (req, res) => {
-  var sql = "SELECT * FROM opcoes_laboratorio";
-  pool.query(sql, (error, results) => {
-    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
-    res.send(results);
-  });
-});
-
 // listar exames laboratoriais solicitados.
 app.get("/atendimento_laboratorio/:id_atendimento", (req, res) => {
   const id_atendimento = req.params.id_atendimento;
@@ -2524,7 +2515,7 @@ app.get("/all_laboratorio", (req, res) => {
   });
 });
 
-// inserir registro de aprazamento.
+// inserir registro de exame laboratorial.
 app.post("/insert_laboratorio", (req, res) => {
   const {
     id_paciente,
@@ -2603,6 +2594,77 @@ app.post("/update_laboratorio/:id", (req, res) => {
 app.get("/delete_laboratorio/:id", (req, res) => {
   const id = parseInt(req.params.id);
   var sql = "DELETE FROM atendimento_laboratorio WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// OPÇÕES DE EXAMES LABORATORIAIS.
+// listar todos os registros de opções de exames laboratoriais (tela do laboratório, configurações).
+app.get("/opcoes_laboratorio", (req, res) => {
+  var sql = "SELECT * FROM atendimento_laboratorio";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de opção de laboratório.
+app.post("/insert_opcao_laboratorio", (req, res) => {
+  const {
+    codigo_exame,
+    nome_exame,
+    material,
+    disponivel
+  } = req.body;
+  var sql =
+    "INSERT INTO opcoes_laboratorio (codigo_exame, nome_exame, material, disponivel) VALUES ($1, $2, $3, $4)";
+  pool.query(
+    sql,
+    [
+      codigo_exame,
+      nome_exame,
+      material,
+      disponivel
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar registro de exame laboratorial.
+app.post("/update_opcao_laboratorio/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    codigo_exame,
+    nome_exame,
+    material,
+    disponivel
+  } = req.body;
+  var sql =
+    "UPDATE opcoes_laboratorio SET codigo_exame = $1, nome_exame = $2, material = $3, disponivel =$4 WHERE id = $5";
+  pool.query(
+    sql,
+    [
+      codigo_exame,
+      nome_exame,
+      material,
+      disponivel,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir exame laboratorial solicitado.
+app.get("/delete_opcao_laboratorio/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM opcoes_laboratorio WHERE id = $1";
   pool.query(sql, [id], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     res.send(results);
