@@ -2603,7 +2603,7 @@ app.get("/delete_laboratorio/:id", (req, res) => {
 // OPÇÕES DE EXAMES LABORATORIAIS.
 // listar todos os registros de opções de exames laboratoriais (tela do laboratório, configurações).
 app.get("/opcoes_laboratorio", (req, res) => {
-  var sql = "SELECT * FROM atendimento_laboratorio";
+  var sql = "SELECT * FROM opcoes_laboratorio";
   pool.query(sql, (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     res.send(results);
