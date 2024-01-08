@@ -2462,10 +2462,11 @@ app.post("/insert_aprazamento", (req, res) => {
     id_componente_filho,
     nome,
     qtde,
-    prazo
+    prazo,
+    dispensado,
   } = req.body;
   var sql =
-    "INSERT INTO atendimento_prescricoes_aprazamento (id_atendimento, id_prescricao, id_componente_pai, id_componente_filho, nome, qtde, prazo) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+    "INSERT INTO atendimento_prescricoes_aprazamento (id_atendimento, id_prescricao, id_componente_pai, id_componente_filho, nome, qtde, prazo, dispensado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
   pool.query(
     sql,
     [
@@ -2475,7 +2476,44 @@ app.post("/insert_aprazamento", (req, res) => {
       id_componente_filho,
       nome,
       qtde,
-      prazo
+      prazo,
+      dispensado,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar registro de aprazamento.
+app.post("/update_aprazamento/:id", (req, res) => {
+  const id = req.params.id;
+  const {
+    id_atendimento,
+    id_prescricao,
+    id_componente_pai,
+    id_componente_filho,
+    nome,
+    qtde,
+    prazo,
+    dispensado,
+  } = req.body;
+  var sql =
+    "UPDATE atendimento_prescricoes_aprazamento SET id_atendimento = $1, id_prescricao = $2, id_componente_pai = $3, id_componente_filho = $4, nome = $5, qtde = $6, prazo = $7, dispensado = $8 WHERE id = $9";
+  pool.query(
+    sql,
+    [
+      id_atendimento,
+      id_prescricao,
+      id_componente_pai,
+      id_componente_filho,
+      nome,
+      qtde,
+      prazo,
+      dispensado,
+      id,
     ],
     (error, results) => {
       if (error)
