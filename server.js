@@ -651,6 +651,18 @@ app.get("/list_atendimentos/:id_unidade", verifyJWT, (req, res) => {
   });
 });
 
+// listar atendimentos para CONSULTAS AMBULATORIAIS (unidade ambulatorial id = 5 no front).
+// listar todos os atendimentos do paciente selecionado.
+app.get("/list_consultas/:id_unidade", verifyJWT, (req, res) => {
+  const id_unidade = parseInt(req.params.id_unidade);
+  var sql =
+    "SELECT * FROM atendimento WHERE id_unidade = $1";
+  pool.query(sql, [id_unidade], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
 // inserir atendimento.
 app.post("/insert_atendimento", (req, res) => {
   const {
