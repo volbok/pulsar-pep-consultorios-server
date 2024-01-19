@@ -717,7 +717,7 @@ app.post("/insert_consulta", (req, res) => {
     id_profissional
   } = req.body;
   var sql =
-    "INSERT INTO atendimento (data_inicio, data_termino, problemas, id_paciente, id_unidade, nome_paciente, leito, situacao, id_cliente, classificacao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
+    "INSERT INTO atendimento (data_inicio, data_termino, problemas, id_paciente, id_unidade, nome_paciente, leito, situacao, id_cliente, classificacao, id_profissional) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
   pool.query(
     sql,
     [
