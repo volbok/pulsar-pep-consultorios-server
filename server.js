@@ -701,6 +701,46 @@ app.post("/insert_atendimento", (req, res) => {
   );
 });
 
+// inserir consulta ambulatorial.
+app.post("/insert_consulta", (req, res) => {
+  const {
+    data_inicio,
+    data_termino,
+    problemas,
+    id_paciente,
+    id_unidade,
+    nome_paciente,
+    leito,
+    situacao,
+    id_cliente,
+    classificacao,
+    id_profissional
+  } = req.body;
+  var sql =
+    "INSERT INTO atendimento (data_inicio, data_termino, problemas, id_paciente, id_unidade, nome_paciente, leito, situacao, id_cliente, classificacao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
+  pool.query(
+    sql,
+    [
+      data_inicio,
+      data_termino,
+      problemas,
+      id_paciente,
+      id_unidade,
+      nome_paciente,
+      leito,
+      situacao,
+      id_cliente,
+      classificacao,
+      id_profissional
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
 // atualizar atendimento.
 app.post("/update_atendimento/:id_atendimento", (req, res) => {
   const id_atendimento = parseInt(req.params.id_atendimento);
