@@ -81,13 +81,60 @@ app.get("/list_unidades", (req, res) => {
 });
 
 // USUÁRIOS.
+// verificando se o usuário é valido.
+app.post("/checknomeusuario", (req, res) => {
+  const { usuario } = req.body;
+  var sql = "SELECT * FROM usuarios WHERE login = $1";
+  pool.query(sql, [usuario], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    var x = results.rows;
+    const id = x.map((item) => item.id_usuario).pop();
+    const nome = x.map((item) => item.nome_usuario).pop();
+    const dn = x.map((item) => item.dn_usuario).pop();
+    const cpf = x.map((item) => item.cpf_usuario).pop();
+    const email = x.map((item) => item.contato_usuario).pop();
+    const conselho = x.map((item) => item.conselho).pop();
+    const n_conselho = x.map((item) => item.n_conselho).pop();
+    const tipo_usuario = x.map((item) => item.tipo_usuario).pop();
+    const paciente = x.map((item) => item.paciente).pop();
+    const prontuario = x.map((item) => item.prontuario).pop();
+    const laboratorio = x.map((item) => item.laboratorio).pop();
+    const farmacia = x.map((item) => item.farmacia).pop();
+    const faturamento = x.map((item) => item.faturamento).pop();
+    const usuarios = x.map((item) => item.usuarios).pop();
+    const primeiro_acesso = x.map((item) => item.primeiro_acesso).pop();
+    if (x.length == 1 && primeiro_acesso == 1 ) {
+      res.json({
+        id: id,
+        nome: nome,
+        dn: dn,
+        cpf: cpf,
+        email: email,
+        conselho: conselho,
+        n_conselho: n_conselho,
+        tipo_usuario: tipo_usuario,
+        paciente: paciente,
+        prontuario: prontuario,
+        laboratorio: laboratorio,
+        farmacia: farmacia,
+        faturamento: faturamento,
+        usuarios: usuarios,
+      });
+    } else {
+      return res.status(500).json({
+        auth: false,
+        message: "PRIMEIRO ACESSO.",
+      });
+    }
+  });
+});
+
 // login e identificação do usuário, com entrega de token (JWT).
 app.post("/checkusuario", (req, res) => {
   const { usuario, senha } = req.body;
   var sql = "SELECT * FROM usuarios WHERE login = $1 AND senha = $2";
   pool.query(sql, [usuario, senha], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
-
     var x = results.rows;
     const id = x.map((item) => item.id_usuario).pop();
     const nome = x.map((item) => item.nome_usuario).pop();
