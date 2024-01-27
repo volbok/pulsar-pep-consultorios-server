@@ -152,20 +152,14 @@ app.post("/checknomeusuario", (req, res) => {
 
 // permitindo o acesso após a autenticação, com entrega de token (JWT).
 app.post("/grant", (req, res) => {
-  const { usuario } = req.body;
-  var sql = "SELECT * FROM usuarios WHERE login = $1 AND senha = $2";
-  pool.query(sql, [usuario, senha], (error, results) => {
-    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
-    var x = results.rows;
-    const id = usuario.id_usuario;
-    const token = jwt.sign({ id }, process.env.SECRET, {
-      expiresIn: 1800, // expira em 30 minutos.
-    });
-    res.json({
-      auth: true,
-      token: token,
-      id: id,
-    });
+  const id = req.body;
+  const token = jwt.sign({ id }, process.env.SECRET, {
+    expiresIn: 1800, // expira em 30 minutos.
+  });
+  res.json({
+    auth: true,
+    token: token,
+    id: id,
   });
 });
 
