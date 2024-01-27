@@ -121,7 +121,8 @@ app.post("/checknomeusuario", (req, res) => {
         usuarios: usuarios,
         primeiro_acesso: primeiro_acesso,
       });
-    } else {
+    } else if (x.length == 1 && primeiro_acesso == 0) {
+      console.log('USUÁRIO JÁ TEM SENHA CRIPTOGRAFADA.');
       res.json({
         id: id,
         nome: nome,
