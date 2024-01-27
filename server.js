@@ -105,48 +105,25 @@ app.post("/checknomeusuario", (req, res) => {
     const faturamento = x.map((item) => item.faturamento).pop();
     const usuarios = x.map((item) => item.usuarios).pop();
     const primeiro_acesso = x.map((item) => item.primeiro_acesso).pop();
-    if (x.length == 1 && primeiro_acesso != 1) {
-      res.json({
-        id: id,
-        nome: nome,
-        dn: dn,
-        cpf: cpf,
-        email: email,
-        senha: senha,
-        login: login,
-        conselho: conselho,
-        n_conselho: n_conselho,
-        tipo_usuario: tipo_usuario,
-        paciente: paciente,
-        prontuario: prontuario,
-        laboratorio: laboratorio,
-        farmacia: farmacia,
-        faturamento: faturamento,
-        usuarios: usuarios,
-        primeiro_acesso: primeiro_acesso,
-      });
-    } else if (x.length == 1 && primeiro_acesso == 1) {
-      console.log('USUÁRIO JÁ TEM SENHA CRIPTOGRAFADA.');
-      res.json({
-        id: id,
-        nome: nome,
-        dn: dn,
-        cpf: cpf,
-        email: email,
-        senha: senha,
-        login: login,
-        conselho: conselho,
-        n_conselho: n_conselho,
-        tipo_usuario: tipo_usuario,
-        paciente: paciente,
-        prontuario: prontuario,
-        laboratorio: laboratorio,
-        farmacia: farmacia,
-        faturamento: faturamento,
-        usuarios: usuarios,
-        primeiro_acesso: primeiro_acesso,
-      });
-    }
+    res.json({
+      id: id,
+      nome: nome,
+      dn: dn,
+      cpf: cpf,
+      email: email,
+      senha: senha,
+      login: login,
+      conselho: conselho,
+      n_conselho: n_conselho,
+      tipo_usuario: tipo_usuario,
+      paciente: paciente,
+      prontuario: prontuario,
+      laboratorio: laboratorio,
+      farmacia: farmacia,
+      faturamento: faturamento,
+      usuarios: usuarios,
+      primeiro_acesso: primeiro_acesso,
+    });
   });
 });
 
