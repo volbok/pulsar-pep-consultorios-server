@@ -119,6 +119,7 @@ app.post("/checknomeusuario", (req, res) => {
         farmacia: farmacia,
         faturamento: faturamento,
         usuarios: usuarios,
+        primeiro_acesso: primeiro_acesso,
       });
     } else {
       return res.status(500).json({
