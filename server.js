@@ -105,7 +105,7 @@ app.post("/checknomeusuario", (req, res) => {
     const faturamento = x.map((item) => item.faturamento).pop();
     const usuarios = x.map((item) => item.usuarios).pop();
     const primeiro_acesso = x.map((item) => item.primeiro_acesso).pop();
-    if (x.length == 1 && (primeiro_acesso == 0 || primeiro_acesso == null)) {
+    if (x.length == 1 && primeiro_acesso == null) {
       res.json({
         id: id,
         nome: nome,
@@ -133,6 +133,8 @@ app.post("/checknomeusuario", (req, res) => {
         dn: dn,
         cpf: cpf,
         email: email,
+        senha: senha,
+        login: login,
         conselho: conselho,
         n_conselho: n_conselho,
         tipo_usuario: tipo_usuario,
