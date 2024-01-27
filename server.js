@@ -105,7 +105,7 @@ app.post("/checknomeusuario", (req, res) => {
     const faturamento = x.map((item) => item.faturamento).pop();
     const usuarios = x.map((item) => item.usuarios).pop();
     const primeiro_acesso = x.map((item) => item.primeiro_acesso).pop();
-    if (x.length == 1 && primeiro_acesso == 0) {
+    if (x.length == 1 && (primeiro_acesso == 0 || primeiro_acesso == null)) {
       res.json({
         id: id,
         nome: nome,
@@ -2110,9 +2110,10 @@ app.post("/update_usuario/:id_usuario", (req, res) => {
     farmacia,
     faturamento,
     usuarios,
+    primeiro_acesso,
   } = req.body;
   var sql =
-    "UPDATE usuarios SET nome_usuario = $1, dn_usuario = $2, cpf_usuario = $3, contato_usuario = $4, senha = $5, login = $6, conselho = $7, n_conselho = $8, tipo_usuario = $9, paciente = $10, prontuario = $11, laboratorio = $12, farmacia = $13, faturamento = $14, usuarios = $15 WHERE id_usuario = $16";
+    "UPDATE usuarios SET nome_usuario = $1, dn_usuario = $2, cpf_usuario = $3, contato_usuario = $4, senha = $5, login = $6, conselho = $7, n_conselho = $8, tipo_usuario = $9, paciente = $10, prontuario = $11, laboratorio = $12, farmacia = $13, faturamento = $14, usuarios = $15, primeiro_acesso = $16 WHERE id_usuario = $17";
   pool.query(
     sql,
     [
@@ -2131,6 +2132,7 @@ app.post("/update_usuario/:id_usuario", (req, res) => {
       farmacia,
       faturamento,
       usuarios,
+      primeiro_acesso,
       id_usuario,
     ],
     (error, results) => {
