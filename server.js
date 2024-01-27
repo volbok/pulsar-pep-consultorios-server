@@ -103,7 +103,7 @@ app.post("/checknomeusuario", (req, res) => {
     const faturamento = x.map((item) => item.faturamento).pop();
     const usuarios = x.map((item) => item.usuarios).pop();
     const primeiro_acesso = x.map((item) => item.primeiro_acesso).pop();
-    if (x.length == 1 && primeiro_acesso == 0 ) {
+    if (x.length == 1 && primeiro_acesso == 0) {
       res.json({
         id: id,
         nome: nome,
@@ -122,9 +122,22 @@ app.post("/checknomeusuario", (req, res) => {
         primeiro_acesso: primeiro_acesso,
       });
     } else {
-      return res.status(500).json({
-        auth: false,
-        message: "PRIMEIRO ACESSO.",
+      res.json({
+        id: id,
+        nome: nome,
+        dn: dn,
+        cpf: cpf,
+        email: email,
+        conselho: conselho,
+        n_conselho: n_conselho,
+        tipo_usuario: tipo_usuario,
+        paciente: paciente,
+        prontuario: prontuario,
+        laboratorio: laboratorio,
+        farmacia: farmacia,
+        faturamento: faturamento,
+        usuarios: usuarios,
+        primeiro_acesso: primeiro_acesso,
       });
     }
   });
