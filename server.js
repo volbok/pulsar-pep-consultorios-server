@@ -125,7 +125,7 @@ app.post("/checknomeusuario", (req, res) => {
         usuarios: usuarios,
         primeiro_acesso: primeiro_acesso,
       });
-    } else if (x.length == 1 && primeiro_acesso == 0) {
+    } else if (x.length == 1 && primeiro_acesso == 1) {
       console.log('USUÁRIO JÁ TEM SENHA CRIPTOGRAFADA.');
       res.json({
         id: id,
@@ -145,6 +145,25 @@ app.post("/checknomeusuario", (req, res) => {
         primeiro_acesso: primeiro_acesso,
       });
     }
+  });
+});
+
+// permitindo o acesso após a autenticação, com entrega de token (JWT).
+app.post("/grant", (req, res) => {
+  const { usuario } = req.body;
+  var sql = "SELECT * FROM usuarios WHERE login = $1 AND senha = $2";
+  pool.query(sql, [usuario, senha], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    var x = results.rows;
+    const id = usuario.id_usuario;
+    const token = jwt.sign({ id }, process.env.SECRET, {
+      expiresIn: 1800, // expira em 30 minutos.
+    });
+    res.json({
+      auth: true,
+      token: token,
+      id: id,
+    });
   });
 });
 
