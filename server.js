@@ -93,6 +93,8 @@ app.post("/checknomeusuario", (req, res) => {
     const dn = x.map((item) => item.dn_usuario).pop();
     const cpf = x.map((item) => item.cpf_usuario).pop();
     const email = x.map((item) => item.contato_usuario).pop();
+    const senha = x.map((item) => item.senha).pop();
+    const login = x.map((item) => item.login).pop();
     const conselho = x.map((item) => item.conselho).pop();
     const n_conselho = x.map((item) => item.n_conselho).pop();
     const tipo_usuario = x.map((item) => item.tipo_usuario).pop();
@@ -110,6 +112,8 @@ app.post("/checknomeusuario", (req, res) => {
         dn: dn,
         cpf: cpf,
         email: email,
+        senha: senha,
+        login: login,
         conselho: conselho,
         n_conselho: n_conselho,
         tipo_usuario: tipo_usuario,
