@@ -2920,9 +2920,14 @@ app.post("/insert_campo_estruturado", (req, res) => {
     id_atendimento,
     data,
     valor,
+    titulo,
+    tipo,
+    altura,
+    largura,
+    obrigatorio
   } = req.body;
   var sql =
-    "INSERT INTO atendimento_campos_estruturados (id_documento, id_paciente, id_atendimento, data, valor) VALUES ($1, $2, $3, $4, $5)";
+    "INSERT INTO atendimento_campos_estruturados (id_documento, id_paciente, id_atendimento, data, valor, titulo, tipo, altura, largura, obrigatorio) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
   pool.query(
     sql,
     [
@@ -2931,6 +2936,11 @@ app.post("/insert_campo_estruturado", (req, res) => {
       id_atendimento,
       data,
       valor,
+      titulo,
+      tipo,
+      altura,
+      largura,
+      obrigatorio
     ],
     (error, results) => {
       if (error)
@@ -2949,9 +2959,14 @@ app.post("/update_campo_estruturado/:id", (req, res) => {
     id_atendimento,
     data,
     valor,
+    titulo,
+    tipo,
+    altura,
+    largura,
+    obrigatorio
   } = req.body;
   var sql =
-    "UPDATE atendimento_campos_estruturados SET id_documento = $1, id_paciente = $2, id_atendimento = $3, data = $4, valor = $5 WHERE id = $6";
+    "UPDATE atendimento_campos_estruturados SET id_documento = $1, id_paciente = $2, id_atendimento = $3, data = $4, valor = $5, titulo  = $6, tipo  = $7, altura  = $8, largura  = $9, obrigatorio  = $10 WHERE id = $11";
   pool.query(
     sql,
     [
@@ -2960,6 +2975,11 @@ app.post("/update_campo_estruturado/:id", (req, res) => {
       id_atendimento,
       data,
       valor,
+      titulo,
+      tipo,
+      altura,
+      largura,
+      obrigatorio,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
