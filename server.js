@@ -2987,7 +2987,7 @@ app.post("/update_campo_estruturado/:id", (req, res) => {
     });
 });
 
-// excluir exame laboratorial solicitado.
+// excluir campo.
 app.get("/delete_campo_estruturado/:id", (req, res) => {
   const id = parseInt(req.params.id);
   var sql = "DELETE FROM atendimento_campos_estruturados WHERE id = $1";
