@@ -2904,9 +2904,9 @@ app.get("/delete_documento_estruturado/:id", (req, res) => {
 
 // CAMPOS ESTRUTURADOS.
 app.get("/campos_estruturados/:id_documento", (req, res) => {
-  const id_paciente = parseInt(req.params.id_paciente);
+  const id_documento = parseInt(req.params.id_documento);
   var sql = "SELECT * FROM atendimento_campos_estruturados WHERE id_documento = $1";
-  pool.query(sql, (error, results) => {
+  pool.query(sql, [id_documento], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     res.send(results);
   });
