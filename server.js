@@ -2820,3 +2820,155 @@ app.get("/delete_opcao_laboratorio/:id", (req, res) => {
     res.send(results);
   });
 });
+
+// DOCUMENTOS ESTRUTURADOS:
+// LISTA DE DOCUMENTOS ESTRUTURADOS.
+// listar todos os registros de documentos que agrupam campos estruturados.
+app.get("/documentos_estruturados/:id_paciente", (req, res) => {
+  const id_paciente = parseInt(req.params.id_paciente);
+  var sql = "SELECT * FROM atendimento_documentos_estruturados WHERE id_paciente = $1";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de documento estruturado.
+app.post("/insert_documento_estruturado", (req, res) => {
+  const {
+    id_paciente,
+    id_atendimento,
+    data,
+    id_usuario,
+    status
+  } = req.body;
+  var sql =
+    "INSERT INTO atendimento_documentos_estruturados (id_paciente, id_atendimento, data, id_usuario, status) VALUES ($1, $2, $3, $4, $5)";
+  pool.query(
+    sql,
+    [
+      id_paciente,
+      id_atendimento,
+      data,
+      id_usuario,
+      status
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar registro de documento estruturado.
+app.post("/update_documento_estruturado/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    id_paciente,
+    id_atendimento,
+    data,
+    id_usuario,
+    status
+  } = req.body;
+  var sql =
+    "UPDATE atendimento_documentos_estruturados SET id_paciente = $1, id_atendimento = $2, data = $3, id_usuario =$4, status = $5 WHERE id = $6";
+  pool.query(
+    sql,
+    [
+      id_paciente,
+      id_atendimento,
+      data,
+      id_usuario,
+      status,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir exame laboratorial solicitado.
+app.get("/delete_documento_estruturado/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM atendimento_documentos_estruturados WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// CAMPOS ESTRUTURADOS.
+app.get("/campos_estruturados/:id_documento", (req, res) => {
+  const id_paciente = parseInt(req.params.id_paciente);
+  var sql = "SELECT * FROM atendimento_campos_estruturados WHERE id_documento = $1";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de campo estruturado.
+app.post("/insert_campo_estruturado", (req, res) => {
+  const {
+    id_documento,
+    id_paciente,
+    id_atendimento,
+    data,
+    valor,
+  } = req.body;
+  var sql =
+    "INSERT INTO atendimento_campos_estruturados (id_documento, id_paciente, id_atendimento, data, valor) VALUES ($1, $2, $3, $4, $5)";
+  pool.query(
+    sql,
+    [
+      id_documento,
+      id_paciente,
+      id_atendimento,
+      data,
+      valor,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar registro de campo estruturado.
+app.post("/update_campo_estruturado/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    id_documento,
+    id_paciente,
+    id_atendimento,
+    data,
+    valor,
+  } = req.body;
+  var sql =
+    "UPDATE atendimento_campos_estruturados SET id_documento = $1, id_paciente = $2, id_atendimento = $3, data = $4, valor = $5 WHERE id = $6";
+  pool.query(
+    sql,
+    [
+      id_documento,
+      id_paciente,
+      id_atendimento,
+      data,
+      valor,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir exame laboratorial solicitado.
+app.get("/delete_campo_estruturado/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM atendimento_campos_estruturados WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
