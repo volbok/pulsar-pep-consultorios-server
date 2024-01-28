@@ -2827,7 +2827,7 @@ app.get("/delete_opcao_laboratorio/:id", (req, res) => {
 app.get("/documentos_estruturados/:id_paciente", (req, res) => {
   const id_paciente = parseInt(req.params.id_paciente);
   var sql = "SELECT * FROM atendimento_documentos_estruturados WHERE id_paciente = $1";
-  pool.query(sql, (error, results) => {
+  pool.query(sql, [id_paciente], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     res.send(results);
   });
@@ -2840,10 +2840,11 @@ app.post("/insert_documento_estruturado", (req, res) => {
     id_atendimento,
     data,
     id_usuario,
-    status
+    status,
+    tipodocumento
   } = req.body;
   var sql =
-    "INSERT INTO atendimento_documentos_estruturados (id_paciente, id_atendimento, data, id_usuario, status) VALUES ($1, $2, $3, $4, $5)";
+    "INSERT INTO atendimento_documentos_estruturados (id_paciente, id_atendimento, data, id_usuario, status, tipodocumento) VALUES ($1, $2, $3, $4, $5, $6)";
   pool.query(
     sql,
     [
@@ -2851,7 +2852,8 @@ app.post("/insert_documento_estruturado", (req, res) => {
       id_atendimento,
       data,
       id_usuario,
-      status
+      status,
+      tipodocumento
     ],
     (error, results) => {
       if (error)
@@ -2869,10 +2871,11 @@ app.post("/update_documento_estruturado/:id", (req, res) => {
     id_atendimento,
     data,
     id_usuario,
-    status
+    status,
+    tipodocumento,
   } = req.body;
   var sql =
-    "UPDATE atendimento_documentos_estruturados SET id_paciente = $1, id_atendimento = $2, data = $3, id_usuario =$4, status = $5 WHERE id = $6";
+    "UPDATE atendimento_documentos_estruturados SET id_paciente = $1, id_atendimento = $2, data = $3, id_usuario =$4, status = $5, tipodocumento = $6 WHERE id = $7";
   pool.query(
     sql,
     [
@@ -2881,6 +2884,7 @@ app.post("/update_documento_estruturado/:id", (req, res) => {
       data,
       id_usuario,
       status,
+      tipodocumento,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
