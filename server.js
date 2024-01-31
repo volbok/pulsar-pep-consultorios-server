@@ -2351,6 +2351,15 @@ app.get("/list_model_documentos/:id_usuario", (req, res) => {
   });
 });
 
+// listar documentos.
+app.get("/list_all_model_documentos", (req, res) => {
+  var sql = "SELECT * FROM documentos_modelos";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
 // inserir registro de documento.
 app.post("/insert_model_documento", (req, res) => {
   const {
