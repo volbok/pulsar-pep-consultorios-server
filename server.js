@@ -646,7 +646,7 @@ app.get("/paciente_riscos/:id_paciente", (req, res) => {
 
 // inserir risco.
 app.post("/insert_risco", (req, res) => {
-  const { id_paciente, risco, data_inicio, data_termino } = req.body;
+  const { id_paciente, risco, data_inicio, data_termino} = req.body;
   var sql =
     "INSERT INTO paciente_riscos (id_paciente, risco, data_inicio, data_termino) VALUES ($1, $2, $3, #4)";
   pool.query(
