@@ -646,7 +646,7 @@ app.get("/paciente_riscos/:id_paciente", (req, res) => {
 
 // inserir risco.
 app.post("/insert_risco", (req, res) => {
-  const { id_paciente, risco, data_inicio, data_termino} = req.body;
+  const { id_paciente, risco, data_inicio, data_termino } = req.body;
   var sql =
     "INSERT INTO paciente_riscos (id_paciente, risco, data_inicio, data_termino) VALUES ($1, $2, $3, $4)";
   pool.query(
@@ -2252,7 +2252,7 @@ app.get("/delete_chamada/:id", (req, res) => {
   });
 });
 
-// DOCUMENTOS (ADMISSÃO, EVOLUÇÃO, SUMÁRIO DE ALTA).
+// DOCUMENTOS (ADMISSÃO, EVOLUÇÃO, SUMÁRIO DE ALTA, ATESTADO).
 // listar documentos.
 app.get("/list_documentos/:id_atendimento", (req, res) => {
   const id_atendimento = parseInt(req.params.id_atendimento);
@@ -2274,9 +2274,11 @@ app.post("/insert_documento", (req, res) => {
     status,
     tipo_documento,
     profissional,
+    conselho,
+    id_profissional,
   } = req.body;
   var sql =
-    "INSERT INTO atendimento_documentos (id_paciente, nome_paciente, id_atendimento, data, texto, status, tipo_documento, profissional) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
+    "INSERT INTO atendimento_documentos (id_paciente, nome_paciente, id_atendimento, data, texto, status, tipo_documento, profissional, conselho, id_profissional) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
   pool.query(
     sql,
     [
@@ -2287,7 +2289,9 @@ app.post("/insert_documento", (req, res) => {
       texto,
       status,
       tipo_documento,
-      profissional
+      profissional,
+      conselho,
+      id_profissional
     ],
     (error, results) => {
       if (error)
@@ -2307,10 +2311,12 @@ app.post("/update_documento/:id", (req, res) => {
     texto,
     status,
     tipo_documento,
-    profissional
+    profissional,
+    conselho,
+    id_profissional
   } = req.body;
   var sql =
-    "UPDATE atendimento_documentos SET id_paciente = $1, nome_paciente = $2, id_atendimento = $3, data = $4, texto = $5, status = $6, tipo_documento = $7, profissional = $8 WHERE id = $9";
+    "UPDATE atendimento_documentos SET id_paciente = $1, nome_paciente = $2, id_atendimento = $3, data = $4, texto = $5, status = $6, tipo_documento = $7, profissional = $8, conselho = $9, id_profissional = $10 WHERE id = $11";
   pool.query(
     sql,
     [
@@ -2322,6 +2328,8 @@ app.post("/update_documento/:id", (req, res) => {
       status,
       tipo_documento,
       profissional,
+      conselho,
+      id_profissional,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
@@ -2850,10 +2858,13 @@ app.post("/insert_documento_estruturado", (req, res) => {
     data,
     id_usuario,
     status,
-    tipodocumento
+    tipodocumento,
+    id_profissional,
+    conselho,
+    nome_profissional
   } = req.body;
   var sql =
-    "INSERT INTO atendimento_documentos_estruturados (id_paciente, id_atendimento, data, id_usuario, status, tipodocumento) VALUES ($1, $2, $3, $4, $5, $6)";
+    "INSERT INTO atendimento_documentos_estruturados (id_paciente, id_atendimento, data, id_usuario, status, tipodocumento, id_profissional, conselho, nome_profissional) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
   pool.query(
     sql,
     [
@@ -2862,7 +2873,10 @@ app.post("/insert_documento_estruturado", (req, res) => {
       data,
       id_usuario,
       status,
-      tipodocumento
+      tipodocumento,
+      id_profissional,
+      conselho,
+      nome_profissional
     ],
     (error, results) => {
       if (error)
@@ -2882,9 +2896,12 @@ app.post("/update_documento_estruturado/:id", (req, res) => {
     id_usuario,
     status,
     tipodocumento,
+    id_profissional,
+    conselho,
+    nome_profissional
   } = req.body;
   var sql =
-    "UPDATE atendimento_documentos_estruturados SET id_paciente = $1, id_atendimento = $2, data = $3, id_usuario =$4, status = $5, tipodocumento = $6 WHERE id = $7";
+    "UPDATE atendimento_documentos_estruturados SET id_paciente = $1, id_atendimento = $2, data = $3, id_usuario =$4, status = $5, tipodocumento = $6, id_profissional = $7, conselho = $8, nome_profissional = $9 WHERE id = $10";
   pool.query(
     sql,
     [
@@ -2894,7 +2911,10 @@ app.post("/update_documento_estruturado/:id", (req, res) => {
       id_usuario,
       status,
       tipodocumento,
-      id
+      id_profissional,
+      conselho,
+      nome_profissional,
+      id,
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
       res.send(results);
