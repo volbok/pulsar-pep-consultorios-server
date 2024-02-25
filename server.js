@@ -1550,8 +1550,8 @@ app.post("/update_interconsulta/:id_interconsulta", (req, res) => {
       parecer,
       id_solicitante,
       id_interconsultor,
-      id_interconsulta,
       id_paciente,
+      id_interconsulta,
     ],
     (error, results) => {
       if (error)
