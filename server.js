@@ -2041,9 +2041,17 @@ app.post("/inserir_usuario", (req, res) => {
     login,
     conselho,
     n_conselho,
+    tipo_usuario,
+    paciente,
+    prontuario,
+    laboratorio,
+    farmacia,
+    faturamento,
+    usuarios,
+    primeiro_acesso,
   } = req.body;
   var sql =
-    "INSERT INTO usuarios (nome_usuario, dn_usuario, cpf_usuario, contato_usuario, senha, login, conselho, n_conselho) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
+    "INSERT INTO usuarios (nome_usuario, dn_usuario, cpf_usuario, contato_usuario, senha, login, conselho, n_conselho, tipo_usuario, paciente, prontuario, laboratorio, farmacia, faturamento, usuarios, primeiro_acesso) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)";
   pool.query(
     sql,
     [
@@ -2055,6 +2063,14 @@ app.post("/inserir_usuario", (req, res) => {
       login,
       conselho,
       n_conselho,
+      tipo_usuario,
+      paciente,
+      prontuario,
+      laboratorio,
+      farmacia,
+      faturamento,
+      usuarios,
+      primeiro_acesso,
     ],
     (error, results) => {
       if (error)
