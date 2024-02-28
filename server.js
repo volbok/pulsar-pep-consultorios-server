@@ -2710,10 +2710,14 @@ app.post("/insert_laboratorio", (req, res) => {
     material,
     resultado,
     status,
-    profissional
+    profissional,
+    unidade_medida,
+    vref_min,
+    vref_max,
+    obs
   } = req.body;
   var sql =
-    "INSERT INTO atendimento_laboratorio (id_paciente, id_atendimento, data_pedido, data_resultado, codigo_exame, nome_exame, material, resultado, status, profissional) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
+    "INSERT INTO atendimento_laboratorio (id_paciente, id_atendimento, data_pedido, data_resultado, codigo_exame, nome_exame, material, resultado, status, profissional, unidade_medida, vref_min, vref_max, obs) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)";
   pool.query(
     sql,
     [
@@ -2726,7 +2730,11 @@ app.post("/insert_laboratorio", (req, res) => {
       material,
       resultado,
       status,
-      profissional
+      profissional,
+      unidade_medida,
+      vref_min,
+      vref_max,
+      obs
     ],
     (error, results) => {
       if (error)
@@ -2749,10 +2757,14 @@ app.post("/update_laboratorio/:id", (req, res) => {
     material,
     resultado,
     status,
-    profissional
+    profissional,
+    unidade_medida,
+    vref_min,
+    vref_max,
+    obs
   } = req.body;
   var sql =
-    "UPDATE atendimento_laboratorio SET id_paciente = $1, id_atendimento = $2, data_pedido = $3, data_resultado = $4, codigo_exame = $5, nome_exame = $6, material = $7, resultado = $8, status = $9, profissional = $10 WHERE id = $11";
+    "UPDATE atendimento_laboratorio SET id_paciente = $1, id_atendimento = $2, data_pedido = $3, data_resultado = $4, codigo_exame = $5, nome_exame = $6, material = $7, resultado = $8, status = $9, profissional = $10, unidade_medida = $11, vref_min = $12, vref_max = $13, obs = $14 WHERE id = $15";
   pool.query(
     sql,
     [
@@ -2766,6 +2778,10 @@ app.post("/update_laboratorio/:id", (req, res) => {
       resultado,
       status,
       profissional,
+      unidade_medida,
+      vref_min,
+      vref_max,
+      obs,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
