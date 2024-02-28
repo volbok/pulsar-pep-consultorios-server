@@ -2679,6 +2679,81 @@ app.get("/delete_aprazamento/:id", (req, res) => {
 });
 
 // LABORATÓRIO.
+// LISTA DE EXAMES LABORATORIAIS.
+// listar exames laboratoriais solicitados.
+app.get("/lista_laboratorio/:id_atendimento", (req, res) => {
+  const id_atendimento = req.params.id_atendimento;
+  var sql = "SELECT * FROM atendimento_laboratorio WHERE id_atendimento = $1";
+  pool.query(sql, [id_atendimento], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de pedido laboratorial (lista no painel lateral que agrupa os itens de exames).
+app.post("/insert_lista_laboratorio", (req, res) => {
+  const {
+    id_paciente,
+    id_atendimento,
+    data,
+    status,
+    id_profissional,
+    nome_profissional,
+    registro_profissional,
+  } = req.body;
+  var sql =
+    "INSERT INTO atendimento_lista_laboratorio (id_paciente, id_atendimento, data, status, id_profissional, nome_profissional, registro_profissional) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+  pool.query(
+    sql,
+    [
+      id_paciente,
+      id_atendimento,
+      data,
+      status,
+      id_profissional,
+      nome_profissional,
+      registro_profissional,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar registro de pedido de exame laboratorial (lista).
+app.post("/update_lista_laboratorio/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    id_paciente,
+    id_atendimento,
+    data,
+    status,
+    id_profissional,
+    nome_profissional,
+    registro_profissional,
+  } = req.body;
+  var sql =
+    "UPDATE atendimento_lista_laboratorio SET id_paciente = $1, id_atendimento = $2, data = $3, status = $4, id_profissional = $5, nome_profissional = $6, registro_profissional = $7 WHERE id = $8";
+  pool.query(
+    sql,
+    [
+      id_paciente,
+      id_atendimento,
+      data,
+      status,
+      id_profissional,
+      nome_profissional,
+      registro_profissional,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// ITENS DE EXAMES LABORATORIAIS.
 // listar exames laboratoriais solicitados.
 app.get("/atendimento_laboratorio/:id_atendimento", (req, res) => {
   const id_atendimento = req.params.id_atendimento;
@@ -2714,10 +2789,11 @@ app.post("/insert_laboratorio", (req, res) => {
     unidade_medida,
     vref_min,
     vref_max,
-    obs
+    obs,
+    id_lista_laboratorio,
   } = req.body;
   var sql =
-    "INSERT INTO atendimento_laboratorio (id_paciente, id_atendimento, data_pedido, data_resultado, codigo_exame, nome_exame, material, resultado, status, profissional, unidade_medida, vref_min, vref_max, obs) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)";
+    "INSERT INTO atendimento_laboratorio (id_paciente, id_atendimento, data_pedido, data_resultado, codigo_exame, nome_exame, material, resultado, status, profissional, unidade_medida, vref_min, vref_max, obs, id_lista_laboratorio) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
   pool.query(
     sql,
     [
@@ -2734,7 +2810,8 @@ app.post("/insert_laboratorio", (req, res) => {
       unidade_medida,
       vref_min,
       vref_max,
-      obs
+      obs,
+      id_lista_laboratorio
     ],
     (error, results) => {
       if (error)
@@ -2761,10 +2838,11 @@ app.post("/update_laboratorio/:id", (req, res) => {
     unidade_medida,
     vref_min,
     vref_max,
-    obs
+    obs,
+    id_lista_laboratorio
   } = req.body;
   var sql =
-    "UPDATE atendimento_laboratorio SET id_paciente = $1, id_atendimento = $2, data_pedido = $3, data_resultado = $4, codigo_exame = $5, nome_exame = $6, material = $7, resultado = $8, status = $9, profissional = $10, unidade_medida = $11, vref_min = $12, vref_max = $13, obs = $14 WHERE id = $15";
+    "UPDATE atendimento_laboratorio SET id_paciente = $1, id_atendimento = $2, data_pedido = $3, data_resultado = $4, codigo_exame = $5, nome_exame = $6, material = $7, resultado = $8, status = $9, profissional = $10, unidade_medida = $11, vref_min = $12, vref_max = $13, obs = $14, id_lista_laboratorio = $15 WHERE id = $16";
   pool.query(
     sql,
     [
@@ -2782,6 +2860,7 @@ app.post("/update_laboratorio/:id", (req, res) => {
       vref_min,
       vref_max,
       obs,
+      id_lista_laboratorio,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
