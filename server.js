@@ -2799,17 +2799,23 @@ app.post("/insert_opcao_laboratorio", (req, res) => {
     codigo_exame,
     nome_exame,
     material,
-    disponivel
+    disponivel,
+    unidade_medida,
+    vref_min,
+    vref_max,
   } = req.body;
   var sql =
-    "INSERT INTO opcoes_laboratorio (codigo_exame, nome_exame, material, disponivel) VALUES ($1, $2, $3, $4)";
+    "INSERT INTO opcoes_laboratorio (codigo_exame, nome_exame, material, disponivel, unidade_medida, vref_min, vref_max) VALUES ($1, $2, $3, $4, $5, $6, $7)";
   pool.query(
     sql,
     [
       codigo_exame,
       nome_exame,
       material,
-      disponivel
+      disponivel,
+      unidade_medida,
+      vref_min,
+      vref_max
     ],
     (error, results) => {
       if (error)
@@ -2826,10 +2832,13 @@ app.post("/update_opcao_laboratorio/:id", (req, res) => {
     codigo_exame,
     nome_exame,
     material,
-    disponivel
+    disponivel,
+    unidade_medida,
+    vref_min,
+    vref_max
   } = req.body;
   var sql =
-    "UPDATE opcoes_laboratorio SET codigo_exame = $1, nome_exame = $2, material = $3, disponivel =$4 WHERE id = $5";
+    "UPDATE opcoes_laboratorio SET codigo_exame = $1, nome_exame = $2, material = $3, disponivel = $4, unidade_medida = $5, vref_min = $6, vref_max = $7 WHERE id = $8";
   pool.query(
     sql,
     [
@@ -2837,6 +2846,9 @@ app.post("/update_opcao_laboratorio/:id", (req, res) => {
       nome_exame,
       material,
       disponivel,
+      unidade_medida,
+      vref_min,
+      vref_max,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
