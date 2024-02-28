@@ -2757,6 +2757,16 @@ app.post("/update_lista_laboratorio/:id", (req, res) => {
     });
 });
 
+// excluir pedido de exame laboratorial solicitado.
+app.get("/delete_lista_laboratorio/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM atendimento_lista_laboratorio WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
 // ITENS DE EXAMES LABORATORIAIS.
 // listar exames laboratoriais solicitados.
 app.get("/atendimento_laboratorio/:id_atendimento", (req, res) => {
