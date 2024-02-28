@@ -2683,7 +2683,7 @@ app.get("/delete_aprazamento/:id", (req, res) => {
 // listar exames laboratoriais solicitados.
 app.get("/lista_laboratorio/:id_atendimento", (req, res) => {
   const id_atendimento = req.params.id_atendimento;
-  var sql = "SELECT * FROM atendimento_laboratorio WHERE id_atendimento = $1";
+  var sql = "SELECT * FROM atendimento_lista_laboratorio WHERE id_atendimento = $1";
   pool.query(sql, [id_atendimento], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     res.send(results);
