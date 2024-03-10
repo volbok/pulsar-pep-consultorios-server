@@ -2738,9 +2738,10 @@ app.post("/update_lista_laboratorio/:id", (req, res) => {
     nome_profissional,
     registro_profissional,
     random,
+    urgente,
   } = req.body;
   var sql =
-    "UPDATE atendimento_lista_laboratorio SET id_paciente = $1, id_atendimento = $2, data = $3, status = $4, id_profissional = $5, nome_profissional = $6, registro_profissional = $7, random =$8 WHERE id = $9";
+    "UPDATE atendimento_lista_laboratorio SET id_paciente = $1, id_atendimento = $2, data = $3, status = $4, id_profissional = $5, nome_profissional = $6, registro_profissional = $7, random = $8, urgente = $9 WHERE id = $10";
   pool.query(
     sql,
     [
@@ -2752,6 +2753,7 @@ app.post("/update_lista_laboratorio/:id", (req, res) => {
       nome_profissional,
       registro_profissional,
       random,
+      urgente,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
