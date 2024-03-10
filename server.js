@@ -2700,10 +2700,11 @@ app.post("/insert_lista_laboratorio", (req, res) => {
     id_profissional,
     nome_profissional,
     registro_profissional,
-    random
+    random,
+    urgente,
   } = req.body;
   var sql =
-    "INSERT INTO atendimento_lista_laboratorio (id_paciente, id_atendimento, data, status, id_profissional, nome_profissional, registro_profissional, random) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
+    "INSERT INTO atendimento_lista_laboratorio (id_paciente, id_atendimento, data, status, id_profissional, nome_profissional, registro_profissional, random, urgente) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
   pool.query(
     sql,
     [
@@ -2715,6 +2716,7 @@ app.post("/insert_lista_laboratorio", (req, res) => {
       nome_profissional,
       registro_profissional,
       random,
+      urgente,
     ],
     (error, results) => {
       if (error)
