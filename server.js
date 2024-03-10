@@ -2716,7 +2716,6 @@ app.post("/insert_lista_laboratorio", (req, res) => {
       nome_profissional,
       registro_profissional,
       random,
-      urgente,
     ],
     (error, results) => {
       if (error)
