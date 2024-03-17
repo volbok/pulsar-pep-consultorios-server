@@ -3229,9 +3229,10 @@ app.post("/insert_almoxarifado", (req, res) => {
     codigo_compra,
     id_setor_origem,
     id_setor_destino,
+    liberado,
   } = req.body;
   var sql =
-    "INSERT INTO almoxarifado (categoria, codigo_item, nome_item, qtde_item, obs, data_entrada, codigo_fornecedor, cnpj_fornecedor, codigo_compra, id_setor_origem, id_setor_destino) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
+    "INSERT INTO almoxarifado (categoria, codigo_item, nome_item, qtde_item, obs, data_entrada, codigo_fornecedor, cnpj_fornecedor, codigo_compra, id_setor_origem, id_setor_destino, liberado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)";
   pool.query(
     sql,
     [
@@ -3246,6 +3247,7 @@ app.post("/insert_almoxarifado", (req, res) => {
       codigo_compra,
       id_setor_origem,
       id_setor_destino,
+      liberado,
     ],
     (error, results) => {
       if (error)
@@ -3270,9 +3272,10 @@ app.post("/update_almoxarifado/:id", (req, res) => {
     codigo_compra,
     id_setor_origem,
     id_setor_destino,
+    liberado,
   } = req.body;
   var sql =
-    "UPDATE almoxarifado SET categoria = $1, codigo_item = $2, nome_item = $3, qtde_item = $4, obs = $5, data_entrada = $6, codigo_fornecedor = $7, cnpj_fornecedor = $8, codigo_compra = $9, id_setor_origem = $10, id_setor_destino = $11 WHERE id = $12";
+    "UPDATE almoxarifado SET categoria = $1, codigo_item = $2, nome_item = $3, qtde_item = $4, obs = $5, data_entrada = $6, codigo_fornecedor = $7, cnpj_fornecedor = $8, codigo_compra = $9, id_setor_origem = $10, id_setor_destino = $11, liberado = $12 WHERE id = $13";
   pool.query(
     sql,
     [
@@ -3287,6 +3290,7 @@ app.post("/update_almoxarifado/:id", (req, res) => {
       codigo_compra,
       id_setor_origem,
       id_setor_destino,
+      liberado,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
