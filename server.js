@@ -2609,9 +2609,10 @@ app.post("/insert_aprazamento", (req, res) => {
     qtde,
     prazo,
     dispensado,
+    codigo_item,
   } = req.body;
   var sql =
-    "INSERT INTO atendimento_prescricoes_aprazamento (id_atendimento, id_prescricao, id_componente_pai, id_componente_filho, nome, qtde, prazo, dispensado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
+    "INSERT INTO atendimento_prescricoes_aprazamento (id_atendimento, id_prescricao, id_componente_pai, id_componente_filho, nome, qtde, prazo, dispensado, codigo_item) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
   pool.query(
     sql,
     [
@@ -2623,6 +2624,7 @@ app.post("/insert_aprazamento", (req, res) => {
       qtde,
       prazo,
       dispensado,
+      codigo_item,
     ],
     (error, results) => {
       if (error)
@@ -2644,9 +2646,10 @@ app.post("/update_aprazamento/:id", (req, res) => {
     qtde,
     prazo,
     dispensado,
+    codigo_item,
   } = req.body;
   var sql =
-    "UPDATE atendimento_prescricoes_aprazamento SET id_atendimento = $1, id_prescricao = $2, id_componente_pai = $3, id_componente_filho = $4, nome = $5, qtde = $6, prazo = $7, dispensado = $8 WHERE id = $9";
+    "UPDATE atendimento_prescricoes_aprazamento SET id_atendimento = $1, id_prescricao = $2, id_componente_pai = $3, id_componente_filho = $4, nome = $5, qtde = $6, prazo = $7, dispensado = $8, codigo_item = $9 WHERE id = $10";
   pool.query(
     sql,
     [
@@ -2658,6 +2661,7 @@ app.post("/update_aprazamento/:id", (req, res) => {
       qtde,
       prazo,
       dispensado,
+      codigo_item,
       id,
     ],
     (error, results) => {
