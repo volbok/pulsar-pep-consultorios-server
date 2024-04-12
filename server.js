@@ -3323,6 +3323,16 @@ app.post("/checkpaciente", (req, res) => {
   });
 });
 
+// listar lista de pedidos de exames laboratoriais solicitados para um dado paciente.
+app.get("/lista_laboratorio_cliente/:id_paciente", (req, res) => {
+  const id_paciente = req.params.id_paciente;
+  var sql = "SELECT * FROM atendimento_lista_laboratorio WHERE id_paciente = $1";
+  pool.query(sql, [id_paciente], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
 // listar todos os exames laboratoriais de um paciente.
 app.post("/laboratorio_cliente", (req, res) => {
   const { id_paciente } = req.body;
