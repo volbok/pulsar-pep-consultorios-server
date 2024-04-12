@@ -3311,3 +3311,14 @@ app.get("/delete_almoxarifado/:id", (req, res) => {
     res.send(results);
   });
 });
+
+// RESULTADOS LABORATORIAIS PARA CLIENTES.
+// login.
+app.post("/checkpaciente", (req, res) => {
+  const { id_paciente, dn_paciente } = req.body;
+  var sql = "SELECT * FROM pacientes WHERE id_paciente = $1 && dn_paciente = $2";
+  pool.query(sql, [id_paciente, dn_paciente], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
