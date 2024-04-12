@@ -3318,7 +3318,17 @@ app.post("/checkpaciente", (req, res) => {
   const { id_paciente } = req.body;
   var sql = "SELECT * FROM paciente WHERE id_paciente = $1";
   pool.query(sql, [id_paciente], (error, results) => {
-    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO " + error });
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// listar todos os exames laboratoriais de um paciente.
+app.post("/laboratorio_cliente", (req, res) => {
+  const { id_paciente } = req.body;
+  var sql = "SELECT * FROM atendimento_laboratorio WHERE id_paciente = $1";
+  pool.query(sql, [id_paciente], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     res.send(results);
   });
 });
