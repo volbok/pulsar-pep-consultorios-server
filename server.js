@@ -3316,7 +3316,8 @@ app.get("/delete_almoxarifado/:id", (req, res) => {
 // login.
 app.post("/checkpaciente", (req, res) => {
   const { id_paciente, dn_paciente } = req.body;
-  var sql = "SELECT * FROM paciente WHERE id_paciente = $1 AND dn_paciente = to_date('$2', 'DD/MM/YYYY')";
+  console.log(dn_paciente);
+  var sql = "SELECT * FROM paciente WHERE id_paciente = $1 AND dn_paciente = to_date($2, 'DD/MM/YYYY')";
   pool.query(sql, [id_paciente, dn_paciente], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO " + error });
     res.send(results);
