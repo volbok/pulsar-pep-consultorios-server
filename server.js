@@ -3325,7 +3325,7 @@ app.post("/checkpaciente", (req, res) => {
 
 // listar lista de pedidos de exames laboratoriais solicitados para um dado paciente.
 app.get("/lista_laboratorio_cliente/:id_paciente", (req, res) => {
-  const id_paciente = req.params.id_paciente;
+  const id_paciente = parseInt(req.params.id_paciente);
   var sql = "SELECT * FROM atendimento_lista_laboratorio WHERE id_paciente = $1";
   pool.query(sql, [id_paciente], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
@@ -3338,6 +3338,233 @@ app.post("/laboratorio_cliente", (req, res) => {
   const { id_paciente } = req.body;
   var sql = "SELECT * FROM atendimento_laboratorio WHERE id_paciente = $1";
   pool.query(sql, [id_paciente], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// FATURAMENTO.
+// listar todas as contas de faturamento SUS (AIHs).
+app.get("/load_aih", (req, res) => {
+  var sql = "SELECT * FROM faturamento_sus_aih";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de conta de faturamento SUS (AIH).
+app.post("/insert_aih", (req, res) => {
+  const {
+    data_abertura,
+    data_fechamento,
+    id_paciente,
+    nome_paciente,
+    id_atendimento,
+    numero_aih,
+    cartao_sus,
+    dn,
+    sexo,
+    nome_mae,
+    nome_responsavel,
+    endereco_logradouro,
+    endereco_numero,
+    endereco_complemento,
+    endereco_bairro,
+    endereco_cep,
+    cod_municipio,
+    telefone_paciente,
+    nacionalidade,
+    cor,
+    etnia,
+    tipo_documento_paciente,
+    numero_documento_paciente,
+    tipo_aih,
+    apresentacao,
+    orgao_emissor,
+    proc_solicitado,
+    proc_principal,
+    mudanca_procedimento,
+    modalidade,
+    espec_leito,
+    cid_principal,
+    motivo_encerramento,
+    doc_profissional_solicitante,
+    doc_profissional_responsavel,
+    doc_autorizador,
+    data_autorizador,
+    aih_anterior,
+    aih_posterior,
+    cnpj_empregador,
+    cnaer,
+    vinculo_previdencia,
+    cbo_completa,
+  } = req.body;
+  var sql =
+    "INSERT INTO faturamento_sus_aih (data_abertura, data_fechamento, id_paciente, nome_paciente, id_atendimento, numero_aih, cartao_sus, dn, sexo, nome_mae, nome_responsavel, endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro, endereco_cep, cod_municipio, telefone_paciente, nacionalidade, cor, etnia, tipo_documento_paciente, numero_documento_paciente, tipo_aih, apresentacao, orgao_emissor, proc_solicitado, proc_principal, mudanca_procedimento, modalidade, espec_leito, cid_principal, motivo_encerramento, doc_profissional_solicitante, doc_profissional_responsavel, doc_autorizador, data_autorizador, aih_anterior, aih_posterior, cnpj_empregador, cnaer, vinculo_previdencia, cbo_completa) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43)";
+  pool.query(
+    sql,
+    [
+      data_abertura,
+      data_fechamento,
+      id_paciente,
+      nome_paciente,
+      id_atendimento,
+      numero_aih,
+      cartao_sus,
+      dn,
+      sexo,
+      nome_mae,
+      nome_responsavel,
+      endereco_logradouro,
+      endereco_numero,
+      endereco_complemento,
+      endereco_bairro,
+      endereco_cep,
+      cod_municipio,
+      telefone_paciente,
+      nacionalidade,
+      cor,
+      etnia,
+      tipo_documento_paciente,
+      numero_documento_paciente,
+      tipo_aih,
+      apresentacao,
+      orgao_emissor,
+      proc_solicitado,
+      proc_principal,
+      mudanca_procedimento,
+      modalidade,
+      espec_leito,
+      cid_principal,
+      motivo_encerramento,
+      doc_profissional_solicitante,
+      doc_profissional_responsavel,
+      doc_autorizador,
+      data_autorizador,
+      aih_anterior,
+      aih_posterior,
+      cnpj_empregador,
+      cnaer,
+      vinculo_previdencia,
+      cbo_completa,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar registro de conta de faturamento SUS (AIH).
+app.post("/update_aih/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    data_abertura,
+    data_fechamento,
+    id_paciente,
+    nome_paciente,
+    id_atendimento,
+    numero_aih,
+    cartao_sus,
+    dn,
+    sexo,
+    nome_mae,
+    nome_responsavel,
+    endereco_logradouro,
+    endereco_numero,
+    endereco_complemento,
+    endereco_bairro,
+    endereco_cep,
+    cod_municipio,
+    telefone_paciente,
+    nacionalidade,
+    cor,
+    etnia,
+    tipo_documento_paciente,
+    numero_documento_paciente,
+    tipo_aih,
+    apresentacao,
+    orgao_emissor,
+    proc_solicitado,
+    proc_principal,
+    mudanca_procedimento,
+    modalidade,
+    espec_leito,
+    cid_principal,
+    motivo_encerramento,
+    doc_profissional_solicitante,
+    doc_profissional_responsavel,
+    doc_autorizador,
+    data_autorizador,
+    aih_anterior,
+    aih_posterior,
+    cnpj_empregador,
+    cnaer,
+    vinculo_previdencia,
+    cbo_completa,
+  } = req.body;
+  var sql =
+    "UPDATE faturamento_sus_aih SET data_abertura = $1, data_fechamento = $2, id_paciente = $3, nome_paciente = $4, id_atendimento = $5, numero_aih = $6, cartao_sus = $7, dn = $8, sexo = $9, nome_mae = $10, nome_responsavel = $11, endereco_logradouro = $12, endereco_numero = $13, endereco_complemento = $14, endereco_bairro = $15, endereco_cep = $16, cod_municipio = $17, telefone_paciente = $18, nacionalidade = $19, cor = $20, etnia = $21, tipo_documento_paciente = $22, numero_documento_paciente = $23, tipo_aih = $24, apresentacao = $25, orgao_emissor = $26, proc_solicitado = $27, proc_principal = $28, mudanca_procedimento = $29, modalidade = $30, espec_leito = $31, cid_principal = $32, motivo_encerramento = $33, doc_profissional_solicitante = $34, doc_profissional_responsavel = $35, doc_autorizador = $36, data_autorizador = $37, aih_anterior = $38, aih_posterior = $39, cnpj_empregador = $40, cnaer = $41, vinculo_previdencia  = $42, cbo_completa  = $43 WHERE id = $44";
+  pool.query(
+    sql,
+    [
+      data_abertura,
+      data_fechamento,
+      id_paciente,
+      nome_paciente,
+      id_atendimento,
+      numero_aih,
+      cartao_sus,
+      dn,
+      sexo,
+      nome_mae,
+      nome_responsavel,
+      endereco_logradouro,
+      endereco_numero,
+      endereco_complemento,
+      endereco_bairro,
+      endereco_cep,
+      cod_municipio,
+      telefone_paciente,
+      nacionalidade,
+      cor,
+      etnia,
+      tipo_documento_paciente,
+      numero_documento_paciente,
+      tipo_aih,
+      apresentacao,
+      orgao_emissor,
+      proc_solicitado,
+      proc_principal,
+      mudanca_procedimento,
+      modalidade,
+      espec_leito,
+      cid_principal,
+      motivo_encerramento,
+      doc_profissional_solicitante,
+      doc_profissional_responsavel,
+      doc_autorizador,
+      data_autorizador,
+      aih_anterior,
+      aih_posterior,
+      cnpj_empregador,
+      cnaer,
+      vinculo_previdencia,
+      cbo_completa,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir registro de conta de faturamento SUS (AIH).
+app.get("/delete_aih/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM faturamento_sus_aih WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     res.send(results);
   });
