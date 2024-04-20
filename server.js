@@ -3506,8 +3506,10 @@ app.post("/insert_aih", (req, res) => {
       cbo_completa,
     ],
     (error, results) => {
-      if (error)
-        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      if (error) {
+        console.log(error);
+        return res.json({ success: false, message: "ERRO DE CONEXÃO. " + error });
+      }
       res.send(results);
     }
   );
