@@ -3628,3 +3628,12 @@ app.get("/delete_aih/:id", (req, res) => {
     res.send(results);
   });
 });
+
+// tabela de códigos de procedimentos de internação do SUS (AIH).
+app.get("/load_codigos_aih", (req, res) => {
+  var sql = "SELECT * FROM faturamento_sus_tabela_aih";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
