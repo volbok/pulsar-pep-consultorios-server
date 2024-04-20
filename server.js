@@ -336,12 +336,13 @@ app.post("/insert_paciente", (req, res) => {
     exames_atuais,
     tipo_documento,
     numero_documento,
+    cns,
     endereco,
     telefone,
     email,
   } = req.body;
   var sql =
-    "INSERT INTO paciente (nome_paciente, nome_mae_paciente, dn_paciente, antecedentes_pessoais, medicacoes_previas, exames_previos, exames_atuais, tipo_documento, numero_documento, endereco, telefone, email) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)";
+    "INSERT INTO paciente (nome_paciente, nome_mae_paciente, dn_paciente, antecedentes_pessoais, medicacoes_previas, exames_previos, exames_atuais, tipo_documento, numero_documento, cns, endereco, telefone, email) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)";
   pool.query(
     sql,
     [
@@ -354,6 +355,7 @@ app.post("/insert_paciente", (req, res) => {
       exames_atuais,
       tipo_documento,
       numero_documento,
+      cns,
       endereco,
       telefone,
       email,
@@ -379,12 +381,13 @@ app.post("/update_paciente/:id_paciente", (req, res) => {
     exames_atuais,
     tipo_documento,
     numero_documento,
+    cns,
     endereco,
     telefone,
     email,
   } = req.body;
   var sql =
-    "UPDATE paciente SET nome_paciente = $1, nome_mae_paciente = $2, dn_paciente = $3, antecedentes_pessoais = $4, medicacoes_previas = $5, exames_previos = $6, exames_atuais = $7, tipo_documento = $8, numero_documento = $9, endereco = $10, telefone = $11, email= $12 WHERE id_paciente = $13";
+    "UPDATE paciente SET nome_paciente = $1, nome_mae_paciente = $2, dn_paciente = $3, antecedentes_pessoais = $4, medicacoes_previas = $5, exames_previos = $6, exames_atuais = $7, tipo_documento = $8, numero_documento = $9, cns = $10, endereco = $11, telefone = $12, email= $13 WHERE id_paciente = $14";
   pool.query(
     sql,
     [
@@ -397,6 +400,7 @@ app.post("/update_paciente/:id_paciente", (req, res) => {
       exames_atuais,
       tipo_documento,
       numero_documento,
+      cns,
       endereco,
       telefone,
       email,
