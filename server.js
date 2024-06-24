@@ -3641,3 +3641,121 @@ app.get("/load_codigos_aih", (req, res) => {
     res.send(results);
   });
 });
+
+// FINANCEIRO
+// listar todas os lançamentos financeiros.
+app.get("/all_financeiro", (req, res) => {
+  var sql = "SELECT * FROM financeiro";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de conta de faturamento SUS (AIH).
+app.post("/insert_financeiro", (req, res) => {
+  const {
+    tipo,
+    recorrencia,
+    pessoa_fisica,
+    pessoa_juridica,
+    cpf,
+    cnpj,
+    valor,
+    status,
+    telefone,
+    e_mail,
+    observacoes,
+    imagem,
+    data_vencimento,
+    data_recebimento,
+    data_pagamento,
+  } = req.body;
+  var sql =
+    "INSERT INTO financeiro (tipo, recorrencia, pessoa_fisica, pessoa_juridica, cpf, cnpj, valor, status, telefone, e_mail, observacoes, imagem, data_vencimento, data_recebimento, data_pagamento) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
+  pool.query(
+    sql,
+    [
+      tipo,
+      recorrencia,
+      pessoa_fisica,
+      pessoa_juridica,
+      cpf,
+      cnpj,
+      valor,
+      status,
+      telefone,
+      e_mail,
+      observacoes,
+      imagem,
+      data_vencimento,
+      data_recebimento,
+      data_pagamento,
+    ],
+    (error, results) => {
+      if (error) {
+        console.log(error);
+        return res.json({ success: false, message: "ERRO DE CONEXÃO. " + error });
+      }
+      res.send(results);
+      return res.json(results);
+    }
+  );
+});
+
+// atualizar registro financeiro.
+app.post("/update_financeiro/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    tipo,
+    recorrencia,
+    pessoa_fisica,
+    pessoa_juridica,
+    cpf,
+    cnpj,
+    valor,
+    status,
+    telefone,
+    e_mail,
+    observacoes,
+    imagem,
+    data_vencimento,
+    data_recebimento,
+    data_pagamento,
+  } = req.body;
+  var sql =
+    "UPDATE financeiro SET tipo = $1, recorrencia = $2, pessoa_fisica = $3, pessoa_juridica = $4, cpf = $5, cnpj = $6, valor = $7, status = $8, telefone = $9, e_mail = $10, observacoes = $11, imagem = $12, data_vencimento = $13, data_recebimento = $14, data_pagamento = $15  WHERE id = $16";
+  pool.query(
+    sql,
+    [
+      tipo,
+      recorrencia,
+      pessoa_fisica,
+      pessoa_juridica,
+      cpf,
+      cnpj,
+      valor,
+      status,
+      telefone,
+      e_mail,
+      observacoes,
+      imagem,
+      data_vencimento,
+      data_recebimento,
+      data_pagamento,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir registro financeiro.
+app.get("/delete_financeiro/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM financeiro WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
