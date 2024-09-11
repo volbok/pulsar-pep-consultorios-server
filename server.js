@@ -3797,7 +3797,7 @@ app.post("/insert_operadora", (req, res) => {
 });
 
 // atualizar registro de operadora.
-app.post("/update_financeiro/:id", (req, res) => {
+app.post("/update_operadora/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const {
     nome_operadora,
