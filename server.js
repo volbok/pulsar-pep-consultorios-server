@@ -42,16 +42,7 @@ app.listen(PORT, () => {
 
 const Pool = require("pg").Pool;
 const pool = new Pool({
-  /*
-    user: "postgres",
-    host: "localhost",
-    database: "pulsar",
-    password: "pulsar",
-    port: 5432,
-  */
-
   user: "postgres",
-  // host: "containers-us-west-126.railway.app",
   host: "viaduct.proxy.rlwy.net",
   database: "railway",
   password: "DDCF5BCdEEC246bcGDEaB2E31b1egB4f",
@@ -3403,7 +3394,7 @@ app.post("/laboratorio_cliente", (req, res) => {
   });
 });
 
-// FATURAMENTO.
+// FATURAMENTO SUS (AIH).
 // listar todas as contas de faturamento SUS (AIHs).
 app.get("/load_aih", (req, res) => {
   var sql = "SELECT * FROM faturamento_sus_aih";
@@ -3754,6 +3745,90 @@ app.post("/update_financeiro/:id", (req, res) => {
 app.get("/delete_financeiro/:id", (req, res) => {
   const id = parseInt(req.params.id);
   var sql = "DELETE FROM financeiro WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// FATURAMENTO CONVÊNIOS
+// GUIA TISS CONSULTA
+
+// FATURAMENTO - CADASTRO DE OPERADORAS.
+app.get("/all_operadoras", (req, res) => {
+  var sql = "SELECT * FROM faturamento_ans_1_operadoras";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de operadora de saúde.
+app.post("/insert_operadora", (req, res) => {
+  const {
+    nome_operadora,
+    registro_ans,
+    telefone,
+    email,
+    codigo_prestador,
+    logo_operadora
+  } = req.body;
+  var sql =
+    "INSERT INTO faturamento_ans_1_operadoras (nome_operadora, registro_ans, telefone, email, codigo_prestador, logo_operadora) VALUES ($1, $2, $3, $4, $5, $6)";
+  pool.query(
+    sql,
+    [
+      nome_operadora,
+      registro_ans,
+      telefone,
+      email,
+      codigo_prestador,
+      logo_operadora
+    ],
+    (error, results) => {
+      if (error) {
+        console.log(error);
+        return res.json({ success: false, message: "ERRO DE CONEXÃO. " + error });
+      }
+      res.send(results);
+      return res.json(results);
+    }
+  );
+});
+
+// atualizar registro de operadora.
+app.post("/update_financeiro/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    nome_operadora,
+    registro_ans,
+    telefone,
+    email,
+    codigo_prestador,
+    logo_operadora
+  } = req.body;
+  var sql =
+    "UPDATE faturamento_ans_1_operadoras SET nome_operadora = $1, registro_ans = $2, telefone = $3, email = $4, codigo_prestador = $5, logo_operadora = $6 WHERE id = $7";
+  pool.query(
+    sql,
+    [
+      nome_operadora,
+      registro_ans,
+      telefone,
+      email,
+      codigo_prestador,
+      logo_operadora,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir registro financeiro.
+app.get("/delete_operadora/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM faturamento_ans_1_operadoras WHERE id = $1";
   pool.query(sql, [id], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     res.send(results);
