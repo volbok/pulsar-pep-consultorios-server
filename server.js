@@ -3940,4 +3940,11 @@ app.get("/delete_procedimento/:id", (req, res) => {
   });
 });
 
-
+// carregar tabela TUSS.
+app.get("/all_tabela_tuss", (req, res) => {
+  var sql = "SELECT * FROM faturamento_ans_0_tabela_tuss";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
