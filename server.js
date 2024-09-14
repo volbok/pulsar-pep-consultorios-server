@@ -344,9 +344,12 @@ app.post("/insert_paciente", (req, res) => {
     orgao_emissor,
     endereco_numero,
     endereco_complemento,
+    convenio_nome,
+    convenio_codigo,
+    convenio_carteira
   } = req.body;
   var sql =
-    "INSERT INTO paciente (nome_paciente, nome_mae_paciente, dn_paciente, antecedentes_pessoais, medicacoes_previas, exames_previos, exames_atuais, tipo_documento, numero_documento, cns, endereco, logradouro, bairro, localidade, uf, cep, telefone, email, nome_responsavel, sexo, nacionalidade, cor, etnia, orgao_emissor, endereco_numero, endereco_complemento) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26)";
+    "INSERT INTO paciente (nome_paciente, nome_mae_paciente, dn_paciente, antecedentes_pessoais, medicacoes_previas, exames_previos, exames_atuais, tipo_documento, numero_documento, cns, endereco, logradouro, bairro, localidade, uf, cep, telefone, email, nome_responsavel, sexo, nacionalidade, cor, etnia, orgao_emissor, endereco_numero, endereco_complemento, convenio_nome, convenio_codigo, convenio_carteira) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29)";
   pool.query(
     sql,
     [
@@ -376,6 +379,9 @@ app.post("/insert_paciente", (req, res) => {
       orgao_emissor,
       endereco_numero,
       endereco_complemento,
+      convenio_nome,
+      convenio_codigo,
+      convenio_carteira
     ],
     (error, results) => {
       if (error)
@@ -415,9 +421,12 @@ app.post("/update_paciente/:id_paciente", (req, res) => {
     orgao_emissor,
     endereco_numero,
     endereco_complemento,
+    convenio_nome,
+    convenio_codigo,
+    convenio_carteira
   } = req.body;
   var sql =
-    "UPDATE paciente SET nome_paciente = $1, nome_mae_paciente = $2, dn_paciente = $3, antecedentes_pessoais = $4, medicacoes_previas = $5, exames_previos = $6, exames_atuais = $7, tipo_documento = $8, numero_documento = $9, cns = $10, endereco = $11, logradouro = $12, bairro = $13, localidade = $14, uf = $15, cep = $16, telefone = $17, email = $18, nome_responsavel = $19, sexo = $20, nacionalidade = $21, cor = $22, etnia = $23, orgao_emissor = $24, endereco_numero = $25, endereco_complemento = $26 WHERE id_paciente = $27";
+    "UPDATE paciente SET nome_paciente = $1, nome_mae_paciente = $2, dn_paciente = $3, antecedentes_pessoais = $4, medicacoes_previas = $5, exames_previos = $6, exames_atuais = $7, tipo_documento = $8, numero_documento = $9, cns = $10, endereco = $11, logradouro = $12, bairro = $13, localidade = $14, uf = $15, cep = $16, telefone = $17, email = $18, nome_responsavel = $19, sexo = $20, nacionalidade = $21, cor = $22, etnia = $23, orgao_emissor = $24, endereco_numero = $25, endereco_complemento = $26, convenio_nome = $27, convenio_codigo = $28, convenio_carteira = $29 WHERE id_paciente = $30";
   pool.query(
     sql,
     [
@@ -447,6 +456,9 @@ app.post("/update_paciente/:id_paciente", (req, res) => {
       orgao_emissor,
       endereco_numero,
       endereco_complemento,
+      convenio_nome,
+      convenio_codigo,
+      convenio_carteira,
       id_paciente,
     ],
     (error, results) => {
