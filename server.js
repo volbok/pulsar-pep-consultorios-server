@@ -793,9 +793,13 @@ app.post("/insert_atendimento", (req, res) => {
     situacao,
     id_cliente,
     classificacao,
+    id_profissional,
+    convenio_id,
+    convenio_carteira,
+    faturamento_codigo_procedimento,
   } = req.body;
   var sql =
-    "INSERT INTO atendimento (data_inicio, data_termino, problemas, id_paciente, id_unidade, nome_paciente, leito, situacao, id_cliente, classificacao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
+    "INSERT INTO atendimento (data_inicio, data_termino, problemas, id_paciente, id_unidade, nome_paciente, leito, situacao, id_cliente, classificacao, id_profissional, convenio_id, convenio_carteira, faturamento_codigo_procedimento) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)";
   pool.query(
     sql,
     [
@@ -809,6 +813,10 @@ app.post("/insert_atendimento", (req, res) => {
       situacao,
       id_cliente,
       classificacao,
+      id_profissional,
+      convenio_id,
+      convenio_carteira,
+      faturamento_codigo_procedimento,
     ],
     (error, results) => {
       if (error)
@@ -831,10 +839,13 @@ app.post("/insert_consulta", (req, res) => {
     situacao,
     id_cliente,
     classificacao,
-    id_profissional
+    id_profissional,
+    convenio_id,
+    convenio_carteira,
+    faturamento_codigo_procedimento,
   } = req.body;
   var sql =
-    "INSERT INTO atendimento (data_inicio, data_termino, problemas, id_paciente, id_unidade, nome_paciente, leito, situacao, id_cliente, classificacao, id_profissional) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
+    "INSERT INTO atendimento (data_inicio, data_termino, problemas, id_paciente, id_unidade, nome_paciente, leito, situacao, id_cliente, classificacao, id_profissional, convenio_id, convenio_carteira, faturamento_codigo_procedimento) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)";
   pool.query(
     sql,
     [
@@ -848,7 +859,10 @@ app.post("/insert_consulta", (req, res) => {
       situacao,
       id_cliente,
       classificacao,
-      id_profissional
+      id_profissional,
+      convenio_id,
+      convenio_carteira,
+      faturamento_codigo_procedimento,
     ],
     (error, results) => {
       if (error)
@@ -871,10 +885,14 @@ app.post("/update_atendimento/:id_atendimento", (req, res) => {
     leito,
     situacao,
     id_cliente,
-    classificacao
+    classificacao,
+    id_profissional,
+    convenio_id,
+    convenio_carteira,
+    faturamento_codigo_procedimento,
   } = req.body;
   var sql =
-    "UPDATE atendimento SET data_inicio = $1, data_termino = $2, problemas = $3, id_paciente = $4, id_unidade = $5, nome_paciente = $6, leito = $7, situacao = $8, id_cliente = $9, classificacao = $10 WHERE id_atendimento = $11";
+    "UPDATE atendimento SET data_inicio = $1, data_termino = $2, problemas = $3, id_paciente = $4, id_unidade = $5, nome_paciente = $6, leito = $7, situacao = $8, id_cliente = $9, classificacao = $10, id_profissional = $11, convenio_id = $12, convenio_carteira = $13, faturamento_codigo_procedimento  = $14 WHERE id_atendimento = $15";
   pool.query(
     sql,
     [
@@ -888,6 +906,10 @@ app.post("/update_atendimento/:id_atendimento", (req, res) => {
       situacao,
       id_cliente,
       classificacao,
+      id_profissional,
+      convenio_id,
+      convenio_carteira,
+      faturamento_codigo_procedimento,
       id_atendimento,
     ],
     (error, results) => {
