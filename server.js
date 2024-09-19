@@ -3785,7 +3785,7 @@ app.get("/delete_financeiro/:id", (req, res) => {
   });
 });
 
-// FATURAMENTO CONVÊNIOS
+// FATURAMENTO CONVÊNIOS (ANS)
 // GUIA TISS CONSULTA
 
 // FATURAMENTO - CADASTRO DE OPERADORAS.
@@ -3978,6 +3978,195 @@ app.get("/delete_procedimento/:id", (req, res) => {
 app.get("/all_tabela_tuss", (req, res) => {
   var sql = "SELECT * FROM faturamento_ans_0_tabela_tuss";
   pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// FATURAMENTO - CADASTRO DE GUIAS TISS - CONSULTA.
+app.get("/all_guia_consulta", (req, res) => {
+  var sql = "SELECT * FROM faturamento_ans_3_guia_consulta";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de guia de consulta TISS.
+app.post("/insert_guia_consulta", (req, res) => {
+  const {
+    id_paciente,
+    id_atendimento,
+    data,
+    tipo_guia,
+    xml,
+    campo1_registro_ans,
+    campo2_numero_guia_prestador,
+    campo3_numero_guia_operadora,
+    campo4_numero_carteira,
+    campo5_validade_carteira,
+    campo6_atendimento_rn,
+    campo26_nome_social,
+    campo7_nome_beneficiario,
+    campo9_codigo_prestador,
+    campo10_nome_prestador,
+    campo11_codigo_cnes_prestador,
+    campo12_nome_profissional_executante,
+    campo13_conselho_profissional,
+    campo14_numero_conselho,
+    campo15_uf_conselho,
+    campo16_codigo_cbo,
+    campo17_indicacao_acidente,
+    campo27_cobertura_especial,
+    campo28_regime_atendimento,
+    campo29_saude_ocupacional,
+    campo18_data_atendimento,
+    campo19_tipo_consulta,
+    campo20_tabela,
+    campo21_codigo_procedimento,
+    campo22_valor_procedimento,
+    campo23_observacao_justificativa,
+    campo24_assinatura_profissional_executante,
+    campo25_assinatura_beneficiario,
+  } = req.body;
+  var sql =
+    "INSERT INTO faturamento_ans_3_guia_consulta (id_paciente, id_atendimento, data, tipo_guia, xml, campo1_registro_ans, campo2_numero_guia_prestador, campo3_numero_guia_operadora, campo4_numero_carteira, campo5_validade_carteira, campo6_atendimento_rn, campo26_nome_social, campo7_nome_beneficiario, campo9_codigo_prestador, campo10_nome_prestador, campo11_codigo_cnes_prestador, campo12_nome_profissional_executante, campo13_conselho_profissional, campo14_numero_conselho, campo15_uf_conselho, campo16_codigo_cbo, campo17_indicacao_acidente, campo27_cobertura_especial, campo28_regime_atendimento, campo29_saude_ocupacional, campo18_data_atendimento, campo19_tipo_consulta, campo20_tabela, campo21_codigo_procedimento, campo22_valor_procedimento, campo23_observacao_justificativa, campo24_assinatura_profissional_executante, campo25_assinatura_beneficiario) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33)";
+  pool.query(
+    sql,
+    [
+      id_paciente,
+      id_atendimento,
+      data,
+      tipo_guia,
+      xml,
+      campo1_registro_ans,
+      campo2_numero_guia_prestador,
+      campo3_numero_guia_operadora,
+      campo4_numero_carteira,
+      campo5_validade_carteira,
+      campo6_atendimento_rn,
+      campo26_nome_social,
+      campo7_nome_beneficiario,
+      campo9_codigo_prestador,
+      campo10_nome_prestador,
+      campo11_codigo_cnes_prestador,
+      campo12_nome_profissional_executante,
+      campo13_conselho_profissional,
+      campo14_numero_conselho,
+      campo15_uf_conselho,
+      campo16_codigo_cbo,
+      campo17_indicacao_acidente,
+      campo27_cobertura_especial,
+      campo28_regime_atendimento,
+      campo29_saude_ocupacional,
+      campo18_data_atendimento,
+      campo19_tipo_consulta,
+      campo20_tabela,
+      campo21_codigo_procedimento,
+      campo22_valor_procedimento,
+      campo23_observacao_justificativa,
+      campo24_assinatura_profissional_executante,
+      campo25_assinatura_beneficiario,
+    ],
+    (error, results) => {
+      if (error) {
+        console.log(error);
+        return res.json({ success: false, message: "ERRO DE CONEXÃO. " + error });
+      }
+      res.send(results);
+      return res.json(results);
+    }
+  );
+});
+
+// atualizar registro de guia de consulta TISS.
+app.post("/update_guia_consulta/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    id_paciente,
+    id_atendimento,
+    data,
+    tipo_guia,
+    xml,
+    campo1_registro_ans,
+    campo2_numero_guia_prestador,
+    campo3_numero_guia_operadora,
+    campo4_numero_carteira,
+    campo5_validade_carteira,
+    campo6_atendimento_rn,
+    campo26_nome_social,
+    campo7_nome_beneficiario,
+    campo9_codigo_prestador,
+    campo10_nome_prestador,
+    campo11_codigo_cnes_prestador,
+    campo12_nome_profissional_executante,
+    campo13_conselho_profissional,
+    campo14_numero_conselho,
+    campo15_uf_conselho,
+    campo16_codigo_cbo,
+    campo17_indicacao_acidente,
+    campo27_cobertura_especial,
+    campo28_regime_atendimento,
+    campo29_saude_ocupacional,
+    campo18_data_atendimento,
+    campo19_tipo_consulta,
+    campo20_tabela,
+    campo21_codigo_procedimento,
+    campo22_valor_procedimento,
+    campo23_observacao_justificativa,
+    campo24_assinatura_profissional_executante,
+    campo25_assinatura_beneficiario,
+  } = req.body;
+  var sql =
+    "UPDATE faturamento_ans_3_guia_consulta SET id_paciente =$1, id_atendimento = $2, data = $3, tipo_guia = $4, xml  = $5, campo1_registro_ans = $6, campo2_numero_guia_prestador = $7, campo3_numero_guia_operadora = $8, campo4_numero_carteira = $9, campo5_validade_carteira = $10, campo6_atendimento_rn = $11, campo26_nome_social = $12, campo7_nome_beneficiario = $13, campo9_codigo_prestador = $14, campo10_nome_prestador = $15, campo11_codigo_cnes_prestador = $16, campo12_nome_profissional_executante = $17, campo13_conselho_profissional = $18, campo14_numero_conselho = $19, campo15_uf_conselho = $20, campo16_codigo_cbo = $21, campo17_indicacao_acidente = $22, campo27_cobertura_especial = $23, campo28_regime_atendimento = $24, campo29_saude_ocupacional = $25, campo18_data_atendimento = $26, campo19_tipo_consulta = $27, campo20_tabela = $28, campo21_codigo_procedimento = $29, campo22_valor_procedimento = $30, campo23_observacao_justificativa = $31, campo24_assinatura_profissional_executante = $32, campo25_assinatura_beneficiario = $33 WHERE id = $34";
+  pool.query(
+    sql,
+    [
+      id_paciente,
+      id_atendimento,
+      data,
+      tipo_guia,
+      xml,
+      campo1_registro_ans,
+      campo2_numero_guia_prestador,
+      campo3_numero_guia_operadora,
+      campo4_numero_carteira,
+      campo5_validade_carteira,
+      campo6_atendimento_rn,
+      campo26_nome_social,
+      campo7_nome_beneficiario,
+      campo9_codigo_prestador,
+      campo10_nome_prestador,
+      campo11_codigo_cnes_prestador,
+      campo12_nome_profissional_executante,
+      campo13_conselho_profissional,
+      campo14_numero_conselho,
+      campo15_uf_conselho,
+      campo16_codigo_cbo,
+      campo17_indicacao_acidente,
+      campo27_cobertura_especial,
+      campo28_regime_atendimento,
+      campo29_saude_ocupacional,
+      campo18_data_atendimento,
+      campo19_tipo_consulta,
+      campo20_tabela,
+      campo21_codigo_procedimento,
+      campo22_valor_procedimento,
+      campo23_observacao_justificativa,
+      campo24_assinatura_profissional_executante,
+      campo25_assinatura_beneficiario,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir registro de guia de consulta TISS.
+app.get("/delete_guia_consulta/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM faturamento_ans_3_guia_consulta WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     res.send(results);
   });
