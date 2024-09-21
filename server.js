@@ -4095,12 +4095,9 @@ app.post("/insert_guia_consulta", (req, res) => {
       campo25_assinatura_beneficiario,
     ],
     (error, results) => {
-      if (error) {
-        console.log(error);
-        return res.json({ success: false, message: "ERRO DE CONEXÃO. " + error });
-      }
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
       res.send(results);
-      return res.json(results);
     }
   );
 });
