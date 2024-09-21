@@ -96,6 +96,9 @@ app.post("/checknomeusuario", (req, res) => {
     const faturamento = x.map((item) => item.faturamento).pop();
     const usuarios = x.map((item) => item.usuarios).pop();
     const primeiro_acesso = x.map((item) => item.primeiro_acesso).pop();
+    const almoxarifado = x.map((item) => item.almoxarifado).pop();
+    const uf_conselho = x.map((item) => item.uf_conselho).pop();
+    const codigo_cbo = x.map((item) => item.codigo_cbo).pop();
     res.json({
       id: id,
       nome: nome,
@@ -114,6 +117,9 @@ app.post("/checknomeusuario", (req, res) => {
       faturamento: faturamento,
       usuarios: usuarios,
       primeiro_acesso: primeiro_acesso,
+      almoxarifado: almoxarifado,
+      uf_conselho: uf_conselho,
+      codigo_cbo: codigo_cbo,
     });
   });
 });
