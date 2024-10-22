@@ -23,10 +23,11 @@ app.use(function (req, res, next) {
   );
   next();
 });
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '500mb'}));
 app.use(
   bodyParser.urlencoded({
     extended: true,
+    limit: '500mb',
   })
 );
 
