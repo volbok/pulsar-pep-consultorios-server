@@ -1566,6 +1566,16 @@ app.get("/allatendimentos/:cliente", (req, res) => {
   });
 });
 
+app.get("/allatendimentosfull/:cliente", (req, res) => {
+  const cliente = parseInt(req.params.cliente);
+  var sql =
+    "SELECT * FROM atendimento WHERE id_cliente = $1";
+  pool.query(sql, [cliente], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
 // ATENDIMENTOS - INTERCONSULTAS.
 // listar todos os registros de interconsultas.
 app.get("/all_interconsultas", (req, res) => {
