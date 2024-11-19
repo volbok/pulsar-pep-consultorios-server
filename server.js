@@ -129,7 +129,8 @@ app.post("/checknomeusuario", (req, res) => {
 app.post("/grant", (req, res) => {
   const id = req.body;
   const token = jwt.sign({ id }, process.env.SECRET, {
-    expiresIn: 1800, // expira em 30 minutos.
+    // expiresIn: 1800, // expira em 30 minutos.
+    expiresIn: 86400, // expira em 24h.
   });
   res.json({
     auth: true,
