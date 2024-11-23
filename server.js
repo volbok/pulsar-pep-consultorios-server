@@ -23,7 +23,7 @@ app.use(function (req, res, next) {
   );
   next();
 });
-app.use(bodyParser.json({limit: '500mb'}));
+app.use(bodyParser.json({ limit: '500mb' }));
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -4214,3 +4214,92 @@ app.get("/delete_guia_consulta/:id", (req, res) => {
     res.send(results);
   });
 });
+
+// MODELOS DE PEDIDOS DE EXAMES (PROCEDIMENTOS SADT-TISS).
+// listar todos os modelos de pacotes de exames.
+app.get("/list_modelos_exames", verifyJWT, (req, res) => {
+  var sql = "SELECT * FROM modelos_laboratorio";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir modelo de pacote de exames..
+app.post("/insert_modelo_exame", (req, res) => {
+  const {
+    profissional,
+    random,
+    nome_modelo,
+  } = req.body;
+  var sql =
+    "INSERT INTO modelos_laboratorio (profissional, random, nome_modelo) VALUES ($1, $2, $3)";
+  pool.query(
+    sql,
+    [
+      profissional,
+      random,
+      nome_modelo,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// excluir modelo de pacote de exames.
+app.get("/delete_modelo_exame/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM modelos_laboratorio WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// EXAMES (PROCEDIMENTOS SADT-TISS) REGISTRADOS COMO MODELOS.
+// listar todos os modelos de exames.
+app.get("/list_modelos_exames_itens", verifyJWT, (req, res) => {
+  var sql = "SELECT * FROM modelos_laboratorio_itens";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir modelo de pacote de exames..
+app.post("/insert_modelo_exame_item", (req, res) => {
+  const {
+    codigo_exame,
+    nome_exame,
+    random,
+  } = req.body;
+  var sql =
+    "INSERT INTO modelos_laboratorio_itens (codigo_exame, nome_exame, random) VALUES ($1, $2, $3)";
+  pool.query(
+    sql,
+    [
+      codigo_exame,
+      nome_exame,
+      random,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// excluir modelo de pacote de exames.
+app.get("/delete_modelo_exame_item/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM modelos_laboratorio WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
