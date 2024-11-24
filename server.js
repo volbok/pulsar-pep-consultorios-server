@@ -4296,7 +4296,7 @@ app.post("/insert_modelo_exame_item", (req, res) => {
 // excluir modelo de pacote de exames.
 app.get("/delete_modelo_exame_item/:id", (req, res) => {
   const id = parseInt(req.params.id);
-  var sql = "DELETE FROM modelos_laboratorio WHERE id = $1";
+  var sql = "DELETE FROM modelos_laboratorio_itens WHERE id = $1";
   pool.query(sql, [id], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     res.send(results);
