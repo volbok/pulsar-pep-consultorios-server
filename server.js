@@ -4303,3 +4303,51 @@ app.get("/delete_modelo_exame_item/:id", (req, res) => {
   });
 });
 
+// AGENDA SEMANAL DE CONSULTAS.
+// listar todos os esquemas de agenda.
+app.get("/list_agenda", verifyJWT, (req, res) => {
+  var sql = "SELECT * FROM usuarios_agenda";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir modelo de pacote de exames..
+app.post("/insert_usuario_agenda", (req, res) => {
+  const {
+    id_usuario,
+    nome_usuario,
+    dia_semana,
+    hora_inicio,
+    hora_termino
+  } = req.body;
+  var sql =
+    "INSERT INTO usuarios_agenda (id_usuario, nome_usuario, dia_semana, hora_inicio, hora_termino) VALUES ($1, $2, $3, $4, $5)";
+  pool.query(
+    sql,
+    [
+      id_usuario,
+      nome_usuario,
+      dia_semana,
+      hora_inicio,
+      hora_termino
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// excluir modelo de pacote de exames.
+app.get("/delete_usuario_agenda/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM usuarios_agenda WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
