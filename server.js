@@ -237,6 +237,51 @@ app.get("/list_hospitais", (req, res) => {
   });
 });
 
+// atualizar cliente (tempos de consultas e tema).
+app.post("/update_cliente/:id_cliente", (req, res) => {
+  const id_cliente = parseInt(req.params.id_cliente);
+  const {
+    nome_unidade,
+    cnpj,
+    cnes,
+    razao_social,
+    endereco,
+    telefone,
+    logo,
+    qrcode,
+    tempo_consulta_convenio,
+    tempo_consulta_particular,
+    email,
+    tema
+  } = req.body;
+  var sql =
+    "UPDATE cliente_hospital SET nome_cliente = $1, cnpj = $2, cnes = $3, razao_social = $4, endereco = $5, telefone = $6, logo = $7, qrcode = $8, tempo_consulta_convenio = $9, tempo_consulta_particular = $10, email = $11, tema = $12 WHERE id_cliente = $13";
+  pool.query(
+    sql,
+    [
+      nome_unidade,
+      cnpj,
+      cnes,
+      razao_social,
+      endereco,
+      telefone,
+      logo,
+      qrcode,
+      tempo_consulta_convenio,
+      tempo_consulta_particular,
+      email,
+      tema,
+      id_cliente
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+
 // listar todas as unidades vinculadas a hospitais cadastradas.
 app.get("/list_unidades", (req, res) => {
   var sql = "SELECT * FROM cliente_unidade";
