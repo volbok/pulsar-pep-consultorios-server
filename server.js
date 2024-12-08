@@ -838,7 +838,7 @@ app.get("/list_atendimentos/:id_unidade", verifyJWT, (req, res) => {
 });
 
 // listar todos os atendimentos do paciente selecionado.
-app.get("/list_atendimentos/:id_profissional", verifyJWT, (req, res) => {
+app.get("/list_atendimentos_profissional/:id_profissional", verifyJWT, (req, res) => {
   const id_profissional = parseInt(req.params.id_profissional);
   var sql =
     "SELECT * FROM atendimento WHERE id_profissional = $1 AND data_termino IS NULL";
