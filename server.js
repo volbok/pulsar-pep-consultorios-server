@@ -837,6 +837,17 @@ app.get("/list_atendimentos/:id_unidade", verifyJWT, (req, res) => {
   });
 });
 
+// listar todos os atendimentos do paciente selecionado.
+app.get("/list_atendimentos/:id_profissional", verifyJWT, (req, res) => {
+  const id_profissional = parseInt(req.params.id_profissional);
+  var sql =
+    "SELECT * FROM atendimento WHERE id_profissional = $1 AND data_termino IS NULL";
+  pool.query(sql, [id_profissional], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
 // listar atendimentos para CONSULTAS AMBULATORIAIS (unidade ambulatorial id = 5 no front).
 // listar todos os atendimentos do paciente selecionado.
 app.get("/list_consultas/:id_unidade", verifyJWT, (req, res) => {
@@ -4395,4 +4406,3 @@ app.get("/delete_usuario_agenda/:id", (req, res) => {
     res.send(results);
   });
 });
-
