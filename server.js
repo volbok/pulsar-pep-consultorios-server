@@ -2462,6 +2462,15 @@ app.get("/list_documentos/:id_atendimento", (req, res) => {
   });
 });
 
+app.get("/list_documentos_idpct/:id_paciente", (req, res) => {
+  const id_paciente = parseInt(req.params.id_paciente);
+  var sql = "SELECT * FROM atendimento_documentos WHERE id_paciente = $1";
+  pool.query(sql, [id_paciente], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
 // inserir registro de documento.
 app.post("/insert_documento", (req, res) => {
   const {
