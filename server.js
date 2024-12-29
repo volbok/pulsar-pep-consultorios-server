@@ -4415,3 +4415,106 @@ app.get("/delete_usuario_agenda/:id", (req, res) => {
     res.send(results);
   });
 });
+
+
+// TABELA DE MEDICAMENTOS PARA RECEITA INTELIGENTE
+// listar todos os esquemas de agenda.
+app.get("/list_medicamentos", (req, res) => {
+  var sql = "SELECT * FROM receita_medicamentos";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// MODELOS DE ITENS DE RECEITA DOS CLIENTES.
+// listar todos os modelos de itens de receita de um cliente.
+app.get("/list_modelos_medicamentos/:id_usuario", (req, res) => {
+  const id_usuario = parseInt(req.params.id_usuario);
+  var sql = "SELECT * FROM receita_modelos_medicamentos WHERE id_usuario = $1";
+  pool.query(sql, [id_usuario], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir modelo de item de receita para um cliente.
+app.post("/insert_modelo_medicamento", (req, res) => {
+  const {
+    id_usuario,
+    substancia,
+    laboratorio,
+    produto,
+    apresentacao,
+    preco1,
+    preco2,
+    posologia,
+    quantidade,
+  } = req.body;
+  var sql =
+    "INSERT INTO receita_modelos_medicamentos (id_usuario, substancia, laboratorio, produto, apresentacao, preco1, preco2, posologia, quantidade) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+  pool.query(
+    sql,
+    [
+      id_usuario,
+      substancia,
+      laboratorio,
+      produto,
+      apresentacao,
+      preco1,
+      preco2,
+      posologia,
+      quantidade,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar modelo de item de receita.
+app.post("/update_modelo_medicamento/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    id_usuario,
+    substancia,
+    laboratorio,
+    produto,
+    apresentacao,
+    preco1,
+    preco2,
+    posologia,
+    quantidade,
+  } = req.body;
+  var sql =
+    "UPDATE receita_modelos_medicamentos SET id_usuario = $1, substancia = $2, laboratorio = $3, produto = $4, apresentacao = $5, preco1 = $6 preco2 = $7, posologia =$8, quantidade = $9 WHERE id = $10";
+  pool.query(
+    sql,
+    [
+      id_usuario,
+      substancia,
+      laboratorio,
+      produto,
+      apresentacao,
+      preco1,
+      preco2,
+      posologia,
+      quantidade,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir modelo de item de receita.
+app.get("/delete_modelo_medicamento/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM receita_modelos_medicamentos WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
