@@ -4518,3 +4518,87 @@ app.get("/delete_modelo_medicamento/:id", (req, res) => {
     res.send(results);
   });
 });
+
+// ## FATURAMENTO CLÍNICAS ## //
+// listar os procedimentos realizados pelo cliente.
+app.get("/list_faturamento-clinicas-procedimentos/:id_cliente", (req, res) => {
+  const id_cliente = parseInt(req.params.id_cliente);
+  var sql = "SELECT * FROM faturamento-clinicas-procedimentos WHERE id_cliente = $1";
+  pool.query(sql, [id_cliente], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir procedimento realizado pela clínica.
+app.post("/insert_faturamento-clinicas-procedimentos", (req, res) => {
+  const {
+    id_cliente,
+    nome_cliente,
+    id_procedimento,
+    nome_procedimento,
+    codigo_tuss,
+    valor_convenio,
+    valor_particular
+  } = req.body;
+  var sql =
+    "INSERT INTO faturamento-clinicas-procedimentos (id_cliente, nome_cliente, id_procedimento, nome_procedimento, codigo_tuss, valor_convenio, valor_particular) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+  pool.query(
+    sql,
+    [
+      id_cliente,
+      nome_cliente,
+      id_procedimento,
+      nome_procedimento,
+      codigo_tuss,
+      valor_convenio,
+      valor_particular
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar procedimento realizado pela clínica.
+app.post("/update_faturamento-clinicas-procedimentos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    id_cliente,
+    nome_cliente,
+    id_procedimento,
+    nome_procedimento,
+    codigo_tuss,
+    valor_convenio,
+    valor_particular
+  } = req.body;
+  var sql =
+    "UPDATE faturamento-clinicas-procedimentos SET id_cliente = $1, nome_cliente = $2, id_procedimento = $3, nome_procedimento = $4, codigo_tuss = $5, valor_convenio = $6, valor_particular = $7 WHERE id = $8";
+  pool.query(
+    sql,
+    [
+      id_cliente,
+      nome_cliente,
+      id_procedimento,
+      nome_procedimento,
+      codigo_tuss,
+      valor_convenio,
+      valor_particular,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir procedimento realizado pela clínica.
+app.get("/delete_faturamento-clinicas-procedimentos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM faturamento-clinicas-procedimentos WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
