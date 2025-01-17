@@ -4636,9 +4636,10 @@ app.post("/insert_exames_clinicas", (req, res) => {
     status,
     laudohtml,
     id_cliente,
+    data_exame,
   } = req.body;
   var sql =
-    "INSERT INTO atendimento_exames (id_exame, nome_exame, codigo_tuss, valor_particular, valor_convenio, particular, convenio, codigo_operadora, forma_pagamento, id_paciente, nome_paciente, dn_paciente, id_profissional_executante, nome_profissional_executante, conselho_profissional_executante, n_conselho_profissional_executante, status, laudohtml, id_cliente) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)";
+    "INSERT INTO atendimento_exames (id_exame, nome_exame, codigo_tuss, valor_particular, valor_convenio, particular, convenio, codigo_operadora, forma_pagamento, id_paciente, nome_paciente, dn_paciente, id_profissional_executante, nome_profissional_executante, conselho_profissional_executante, n_conselho_profissional_executante, status, laudohtml, id_cliente, data_exame) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)";
   pool.query(
     sql,
     [
@@ -4661,6 +4662,7 @@ app.post("/insert_exames_clinicas", (req, res) => {
       status,
       laudohtml,
       id_cliente,
+      data_exame,
     ],
     (error, results) => {
       if (error)
@@ -4693,9 +4695,10 @@ app.post("/update_exames_clinicas/:id", (req, res) => {
     status,
     laudohtml,
     id_cliente,
+    data_exame,
   } = req.body;
   var sql =
-    "UPDATE atendimento_exames SET id_exame = $1, nome_exame = $2, codigo_tuss = $3, valor_particular = $4, valor_convenio = $5, particular = $6, convenio = $7, codigo_operadora = $8, forma_pagamento = $9, id_paciente = $10, nome_paciente = $11, dn_paciente = $12, id_profissional_executante = $13, nome_profissional_executante = $14, conselho_profissional_executante = $15, n_conselho_profissional_executante = $16, status = $17, laudohtml = $18, id_cliente = $19 WHERE id = $20";
+    "UPDATE atendimento_exames SET id_exame = $1, nome_exame = $2, codigo_tuss = $3, valor_particular = $4, valor_convenio = $5, particular = $6, convenio = $7, codigo_operadora = $8, forma_pagamento = $9, id_paciente = $10, nome_paciente = $11, dn_paciente = $12, id_profissional_executante = $13, nome_profissional_executante = $14, conselho_profissional_executante = $15, n_conselho_profissional_executante = $16, status = $17, laudohtml = $18, id_cliente = $19, data_exame = $20 WHERE id = $21";
   pool.query(
     sql,
     [
@@ -4718,6 +4721,7 @@ app.post("/update_exames_clinicas/:id", (req, res) => {
       status,
       laudohtml,
       id_cliente,
+      data_exame,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
@@ -4729,6 +4733,90 @@ app.post("/update_exames_clinicas/:id", (req, res) => {
 app.get("/delete_exames_clinicas/:id", (req, res) => {
   const id = parseInt(req.params.id);
   var sql = "DELETE FROM atendimento_exames WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// ## AGENDA DE PROFISSIONAIS PARA REALZIAÇÃO DE EXAMES DE IMAGEM/PROCEDIMENTOS ## //
+// listar as agendas cadastradas para um cliente.
+app.get("/list_agenda_exames/:id_cliente", (req, res) => {
+  const id_cliente = parseInt(req.params.id_cliente);
+  var sql = "SELECT * FROM usuarios_agenda_exames WHERE id_cliente = $1";
+  pool.query(sql, [id_cliente], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir agenda para exame/procedimento.
+app.post("/insert_agenda_exame", (req, res) => {
+  const {
+    id_cliente,
+    id_usuario,
+    id_nome_usuario,
+    exame,
+    dia_semana,
+    hora_inicio,
+    codigo_tuss,
+  } = req.body;
+  var sql =
+    "INSERT INTO usuarios_agenda_exames (id_cliente, id_usuario, id_nome_usuario, exame, dia_semana, hora_inicio, codigo_tuss) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+  pool.query(
+    sql,
+    [
+      id_cliente,
+      id_usuario,
+      id_nome_usuario,
+      exame,
+      dia_semana,
+      hora_inicio,
+      codigo_tuss,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar procedimento ou exame.
+app.post("/update_agenda_exame/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    id_cliente,
+    id_usuario,
+    id_nome_usuario,
+    exame,
+    dia_semana,
+    hora_inicio,
+    codigo_tuss,
+  } = req.body;
+  var sql =
+    "UPDATE usuarios_agenda_exames SET id_cliente = $1, id_usuario = $2, id_nome_usuario = $3, exame = $4, dia_semana = $5, hora_inicio = $6, codigo_tuss = $7 WHERE id = $8";
+  pool.query(
+    sql,
+    [
+      id_cliente,
+      id_usuario,
+      id_nome_usuario,
+      exame,
+      dia_semana,
+      hora_inicio,
+      codigo_tuss,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir procedimento ou exame.
+app.get("/delete_agenda_exame/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM usuarios_agenda_exames WHERE id = $1";
   pool.query(sql, [id], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     res.send(results);
