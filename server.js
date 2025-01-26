@@ -2997,6 +2997,16 @@ app.get("/all_laboratorio", (req, res) => {
   });
 });
 
+// listar exames laboratoriais solicitados (pela id do paciente).
+app.get("/atendimento_laboratorio_idpaciente/:id_paciente", (req, res) => {
+  const id_paciente = req.params.id_paciente;
+  var sql = "SELECT * FROM atendimento_laboratorio WHERE id_paciente = $1";
+  pool.query(sql, [id_paciente], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
 // inserir registro de exame laboratorial.
 app.post("/insert_laboratorio", (req, res) => {
   const {
