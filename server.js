@@ -4832,3 +4832,115 @@ app.get("/delete_agenda_exame/:id", (req, res) => {
     res.send(results);
   });
 });
+
+// ## FATURAMENTO DE ATENDIMENTOS (CONSULTAS), EXAMES E PROCEDIMENTOS ## //
+// listar os registros de faturamento.
+app.get("/list_faturamento_clinicas/:id_cliente", (req, res) => {
+  const id_cliente = parseInt(req.params.id_cliente);
+  var sql = "SELECT * FROM faturamento_clinicas WHERE id_cliente = $1";
+  pool.query(sql, [id_cliente], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de faturamento.
+app.post("/insert_faturamento_clinicas", (req, res) => {
+  const {
+    cliente_id,
+    cliente_nome,
+    atendimento_id,
+    procedimento_id,
+    data_pagamento,
+    data_vencimento,
+    parcela,
+    forma_pagamento,
+    status_pagamento,
+    valor_pagamento,
+    id_operadora,
+    codigo_operadora,
+    codigo_tuss,
+    nome_tuss,
+  } = req.body;
+  var sql =
+    "INSERT INTO faturamento_clinicas (cliente_id, cliente_nome, atendimento_id, procedimento_id, data_pagamento, data_vencimento, parcela, forma_pagamento, status_pagamento, valor_pagamento, id_operadora, codigo_operadora, codigo_tuss, nome_tuss) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)";
+  pool.query(
+    sql,
+    [
+      cliente_id,
+      cliente_nome,
+      atendimento_id,
+      procedimento_id,
+      data_pagamento,
+      data_vencimento,
+      parcela,
+      forma_pagamento,
+      status_pagamento,
+      valor_pagamento,
+      id_operadora,
+      codigo_operadora,
+      codigo_tuss,
+      nome_tuss,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar regstro de faturamento.
+app.post("/update_faturamento_clinicas/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    cliente_id,
+    cliente_nome,
+    atendimento_id,
+    procedimento_id,
+    data_pagamento,
+    data_vencimento,
+    parcela,
+    forma_pagamento,
+    status_pagamento,
+    valor_pagamento,
+    id_operadora,
+    codigo_operadora,
+    codigo_tuss,
+    nome_tuss,
+  } = req.body;
+  var sql =
+    "UPDATE faturamento_clinicas SET cliente_id = $1, cliente_nome = $2, atendimento_id = $3, procedimento_id = $4, data_pagamento = $5, data_vencimento = $6, parcela = $7, forma_pagamento = $8, status_pagamento = $9, valor_pagamento = $10, id_operadora = $11, codigo_operadora = $12, codigo_tuss = $13, nome_tuss = $14 WHERE id = $15";
+  pool.query(
+    sql,
+    [
+      cliente_id,
+      cliente_nome,
+      atendimento_id,
+      procedimento_id,
+      data_pagamento,
+      data_vencimento,
+      parcela,
+      forma_pagamento,
+      status_pagamento,
+      valor_pagamento,
+      id_operadora,
+      codigo_operadora,
+      codigo_tuss,
+      nome_tuss,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir faturamento.
+app.get("/delete_faturamento_clinicas/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM faturamento_clinicas WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
