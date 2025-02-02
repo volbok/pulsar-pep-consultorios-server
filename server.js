@@ -4630,12 +4630,9 @@ app.post("/insert_exames_clinicas", (req, res) => {
     id_exame,
     nome_exame,
     codigo_tuss,
-    valor_particular,
-    valor_convenio,
     particular,
     convenio,
     codigo_operadora,
-    forma_pagamento,
     id_paciente,
     nome_paciente,
     dn_paciente,
@@ -4649,19 +4646,16 @@ app.post("/insert_exames_clinicas", (req, res) => {
     data_exame,
   } = req.body;
   var sql =
-    "INSERT INTO atendimento_exames (id_exame, nome_exame, codigo_tuss, valor_particular, valor_convenio, particular, convenio, codigo_operadora, forma_pagamento, id_paciente, nome_paciente, dn_paciente, id_profissional_executante, nome_profissional_executante, conselho_profissional_executante, n_conselho_profissional_executante, status, laudohtml, id_cliente, data_exame) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)";
+    "INSERT INTO atendimento_exames (id_exame, nome_exame, codigo_tuss, particular, convenio, codigo_operadora, id_paciente, nome_paciente, dn_paciente, id_profissional_executante, nome_profissional_executante, conselho_profissional_executante, n_conselho_profissional_executante, status, laudohtml, id_cliente, data_exame) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)";
   pool.query(
     sql,
     [
       id_exame,
       nome_exame,
       codigo_tuss,
-      valor_particular,
-      valor_convenio,
       particular,
       convenio,
       codigo_operadora,
-      forma_pagamento,
       id_paciente,
       nome_paciente,
       dn_paciente,
@@ -4689,12 +4683,9 @@ app.post("/update_exames_clinicas/:id", (req, res) => {
     id_exame,
     nome_exame,
     codigo_tuss,
-    valor_particular,
-    valor_convenio,
     particular,
     convenio,
     codigo_operadora,
-    forma_pagamento,
     id_paciente,
     nome_paciente,
     dn_paciente,
@@ -4708,19 +4699,16 @@ app.post("/update_exames_clinicas/:id", (req, res) => {
     data_exame,
   } = req.body;
   var sql =
-    "UPDATE atendimento_exames SET id_exame = $1, nome_exame = $2, codigo_tuss = $3, valor_particular = $4, valor_convenio = $5, particular = $6, convenio = $7, codigo_operadora = $8, forma_pagamento = $9, id_paciente = $10, nome_paciente = $11, dn_paciente = $12, id_profissional_executante = $13, nome_profissional_executante = $14, conselho_profissional_executante = $15, n_conselho_profissional_executante = $16, status = $17, laudohtml = $18, id_cliente = $19, data_exame = $20 WHERE id = $21";
+    "UPDATE atendimento_exames SET id_exame = $1, nome_exame = $2, codigo_tuss = $3, particular = $4, convenio = $5, codigo_operadora = $6, id_paciente = $7, nome_paciente = $8, dn_paciente = $9, id_profissional_executante = $10, nome_profissional_executante = $11, conselho_profissional_executante = $12, n_conselho_profissional_executante = $13, status = $14, laudohtml = $15, id_cliente = $16, data_exame = $17 WHERE id = $18";
   pool.query(
     sql,
     [
       id_exame,
       nome_exame,
       codigo_tuss,
-      valor_particular,
-      valor_convenio,
       particular,
       convenio,
       codigo_operadora,
-      forma_pagamento,
       id_paciente,
       nome_paciente,
       dn_paciente,
