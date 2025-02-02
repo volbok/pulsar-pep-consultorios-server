@@ -3990,7 +3990,7 @@ app.get("/delete_operadora/:id", (req, res) => {
   });
 });
 
-// FATURAMENTO - CADASTRO DE PROCEDIMENTOS PARA AS OPERADORAS.
+// FATURAMENTO - CADASTRO DE PROCEDIMENTOS PARA AS OPERADORAS (COM VALOR PARA ATENDIMENTO PARTICULAR).
 app.get("/all_procedimentos", (req, res) => {
   var sql = "SELECT * FROM faturamento_ans_2_operadoras_x_procedimentos";
   pool.query(sql, (error, results) => {
@@ -4014,9 +4014,11 @@ app.post("/insert_procedimento", (req, res) => {
     valor_absoluto_aumento,
     valor_absoluto_reducao,
     obs,
+    id_cliente,
+    valor_part
   } = req.body;
   var sql =
-    "INSERT INTO faturamento_ans_2_operadoras_x_procedimentos (id_operadora, nome_operadora, tuss_codigo, tuss_terminologia, tuss_rol_ans, tuss_rol_ans_descricao, valor, fator_aumento, fator_reducao, valor_absoluto_aumento, valor_absoluto_reducao, obs) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)";
+    "INSERT INTO faturamento_ans_2_operadoras_x_procedimentos (id_operadora, nome_operadora, tuss_codigo, tuss_terminologia, tuss_rol_ans, tuss_rol_ans_descricao, valor, fator_aumento, fator_reducao, valor_absoluto_aumento, valor_absoluto_reducao, obs, id_cliente, valor_part) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)";
   pool.query(
     sql,
     [
@@ -4032,6 +4034,8 @@ app.post("/insert_procedimento", (req, res) => {
       valor_absoluto_aumento,
       valor_absoluto_reducao,
       obs,
+      id_cliente,
+      valor_part
     ],
     (error, results) => {
       if (error) {
@@ -4060,9 +4064,11 @@ app.post("/update_procedimento/:id", (req, res) => {
     valor_absoluto_aumento,
     valor_absoluto_reducao,
     obs,
+    id_cliente,
+    valor_part
   } = req.body;
   var sql =
-    "UPDATE faturamento_ans_2_operadoras_x_procedimentos SET id_operadora =$1, nome_operadora = $2, tuss_codigo = $3, tuss_terminologia = $4, tuss_rol_ans  = $5, tuss_rol_ans_descricao = $6, valor = $7, fator_aumento = $8, fator_reducao = $9, valor_absoluto_aumento = $10, valor_absoluto_reducao = $11, obs = $12 WHERE id = $13";
+    "UPDATE faturamento_ans_2_operadoras_x_procedimentos SET id_operadora =$1, nome_operadora = $2, tuss_codigo = $3, tuss_terminologia = $4, tuss_rol_ans  = $5, tuss_rol_ans_descricao = $6, valor = $7, fator_aumento = $8, fator_reducao = $9, valor_absoluto_aumento = $10, valor_absoluto_reducao = $11, obs = $12, id_cliente = $13, valor_part = $14 WHERE id = $15";
   pool.query(
     sql,
     [
@@ -4078,6 +4084,8 @@ app.post("/update_procedimento/:id", (req, res) => {
       valor_absoluto_aumento,
       valor_absoluto_reducao,
       obs,
+      id_cliente,
+      valor_part,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
