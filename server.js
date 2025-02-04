@@ -4833,7 +4833,7 @@ app.get("/delete_agenda_exame/:id", (req, res) => {
 // listar os registros de faturamento.
 app.get("/list_faturamento_clinicas/:id_cliente", (req, res) => {
   const id_cliente = parseInt(req.params.id_cliente);
-  var sql = "SELECT * FROM faturamento_clinicas WHERE id_cliente = $1";
+  var sql = "SELECT * FROM faturamento_clinicas WHERE cliente_id = $1";
   pool.query(sql, [id_cliente], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     res.send(results);
