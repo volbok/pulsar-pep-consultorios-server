@@ -4403,10 +4403,11 @@ app.post("/insert_usuario_agenda", (req, res) => {
     nome_usuario,
     dia_semana,
     hora_inicio,
-    hora_termino
+    hora_termino,
+    id_cliente,
   } = req.body;
   var sql =
-    "INSERT INTO usuarios_agenda (id_usuario, nome_usuario, dia_semana, hora_inicio, hora_termino) VALUES ($1, $2, $3, $4, $5)";
+    "INSERT INTO usuarios_agenda (id_usuario, nome_usuario, dia_semana, hora_inicio, hora_termino, id_cliente) VALUES ($1, $2, $3, $4, $5, $6)";
   pool.query(
     sql,
     [
@@ -4414,7 +4415,8 @@ app.post("/insert_usuario_agenda", (req, res) => {
       nome_usuario,
       dia_semana,
       hora_inicio,
-      hora_termino
+      hora_termino,
+      id_cliente,
     ],
     (error, results) => {
       if (error)
