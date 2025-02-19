@@ -4842,6 +4842,17 @@ app.get("/list_faturamento_clinicas/:id_cliente", (req, res) => {
   });
 });
 
+// listar os registros de faturamento.
+app.get("/list_faturamento_clinicas_mes/:id_cliente/:mes", (req, res) => {
+  const id_cliente = parseInt(req.params.id_cliente);
+  const mes = req.params.mes
+  var sql = "SELECT * FROM faturamento_clinicas WHERE cliente_id = $1 AND TO_CHAR(data_inicio, MM) = $2";
+  pool.query(sql, [id_cliente], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
 // inserir registro de faturamento.
 app.post("/insert_faturamento_clinicas", (req, res) => {
   const {
