@@ -4856,7 +4856,7 @@ app.get("/list_faturamento_clinicas_mes/:id_cliente/:mes", (req, res) => {
 // listar os procedimentos realizados pelo cliente, para um determinado mês.
 app.get("/list_faturamento_geral_mes/:id_cliente/:mes", (req, res) => {
   const id_cliente = parseInt(req.params.id_cliente);
-  const mes = parseInt(req.params.mes);
+  const mes = req.params.mes;
   var sql = "SELECT * FROM faturamento_clinicas WHERE cliente_id = $1 AND TO_CHAR(TO_DATE(data_pagamento, 'DD/MM/YYYY'), 'MM-YYYY') = $2";
   pool.query(sql, [id_cliente, mes], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO " + error });
