@@ -4853,6 +4853,17 @@ app.get("/list_faturamento_clinicas_mes/:id_cliente/:mes", (req, res) => {
   });
 });
 
+// listar os procedimentos realizados pelo cliente, para um determinado mês.
+app.get("/list_faturamento_geral_mes/:id_cliente/:mes", (req, res) => {
+  const id_cliente = parseInt(req.params.id_cliente);
+  const mes = parseInt(req.params.mes);
+  var sql = "SELECT * FROM faturamento_clinicas WHERE cliente_id = $1 AND data_pagamento = $2";
+  pool.query(sql, [id_cliente, mes], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
 // inserir registro de faturamento.
 app.post("/insert_faturamento_clinicas", (req, res) => {
   const {
