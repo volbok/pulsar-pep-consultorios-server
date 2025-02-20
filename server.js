@@ -4847,7 +4847,7 @@ app.get("/list_faturamento_clinicas_mes/:id_cliente/:mes", (req, res) => {
   const id_cliente = parseInt(req.params.id_cliente);
   const mes = req.params.mes
   var sql = "SELECT * FROM atendimento WHERE id_cliente = $1 AND TO_CHAR(data_inicio, MM-YYYY) = $2";
-  pool.query(sql, [id_cliente], (error, results) => {
+  pool.query(sql, [id_cliente, mes], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO " + error });
     res.send(results);
   });
