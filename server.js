@@ -4884,7 +4884,7 @@ app.post("/insert_faturamento_clinicas", (req, res) => {
     data_registro,
   } = req.body;
   var sql =
-    "INSERT INTO faturamento_clinicas (cliente_id, cliente_nome, atendimento_id, procedimento_id, data_pagamento, data_vencimento, parcela, forma_pagamento, status_pagamento, valor_pagamento, id_operadora, codigo_operadora, codigo_tuss, nome_tuss, data_registro) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $16)";
+    "INSERT INTO faturamento_clinicas (cliente_id, cliente_nome, atendimento_id, procedimento_id, data_pagamento, data_vencimento, parcela, forma_pagamento, status_pagamento, valor_pagamento, id_operadora, codigo_operadora, codigo_tuss, nome_tuss, data_registro) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
   pool.query(
     sql,
     [
