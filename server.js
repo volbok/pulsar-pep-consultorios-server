@@ -4842,11 +4842,22 @@ app.get("/list_faturamento_clinicas/:id_cliente", (req, res) => {
   });
 });
 
-// listar os registros de faturamento.
+// listar os registros de faturamento de atendimentos (consultas).
 app.get("/list_faturamento_clinicas_mes/:id_cliente/:mes", (req, res) => {
   const id_cliente = parseInt(req.params.id_cliente);
   const mes = req.params.mes
   var sql = "SELECT * FROM atendimento WHERE id_cliente = $1 AND TO_CHAR(data_inicio, 'MM-YYYY') = $2";
+  pool.query(sql, [id_cliente, mes], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO " + error });
+    res.send(results);
+  });
+});
+
+// listar os registros de faturamento de procedimentos (exames de imagem, procedimentos).
+app.get("/list_faturamento_procedimentos_mes/:id_cliente/:mes", (req, res) => {
+  const id_cliente = parseInt(req.params.id_cliente);
+  const mes = req.params.mes
+  var sql = "SELECT * FROM atendimento_exames WHERE id_cliente = $1 AND TO_CHAR(data_exame, 'MM-YYYY') = $2";
   pool.query(sql, [id_cliente, mes], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO " + error });
     res.send(results);
