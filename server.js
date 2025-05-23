@@ -3928,10 +3928,11 @@ app.post("/insert_operadora", (req, res) => {
     telefone,
     email,
     codigo_prestador,
-    logo_operadora
+    logo_operadora,
+    id_cliente,
   } = req.body;
   var sql =
-    "INSERT INTO faturamento_ans_1_operadoras (nome_operadora, registro_ans, telefone, email, codigo_prestador, logo_operadora) VALUES ($1, $2, $3, $4, $5, $6)";
+    "INSERT INTO faturamento_ans_1_operadoras (nome_operadora, registro_ans, telefone, email, codigo_prestador, logo_operadora, id_cliente) VALUES ($1, $2, $3, $4, $5, $6, $7)";
   pool.query(
     sql,
     [
@@ -3940,7 +3941,8 @@ app.post("/insert_operadora", (req, res) => {
       telefone,
       email,
       codigo_prestador,
-      logo_operadora
+      logo_operadora,
+      id_cliente,
     ],
     (error, results) => {
       if (error) {
@@ -3962,10 +3964,11 @@ app.post("/update_operadora/:id", (req, res) => {
     telefone,
     email,
     codigo_prestador,
-    logo_operadora
+    logo_operadora,
+    id_cliente,
   } = req.body;
   var sql =
-    "UPDATE faturamento_ans_1_operadoras SET nome_operadora = $1, registro_ans = $2, telefone = $3, email = $4, codigo_prestador = $5, logo_operadora = $6 WHERE id = $7";
+    "UPDATE faturamento_ans_1_operadoras SET nome_operadora = $1, registro_ans = $2, telefone = $3, email = $4, codigo_prestador = $5, logo_operadora = $6, id_cliente = $7 WHERE id = $8";
   pool.query(
     sql,
     [
@@ -3975,6 +3978,7 @@ app.post("/update_operadora/:id", (req, res) => {
       email,
       codigo_prestador,
       logo_operadora,
+      id_cliente,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
