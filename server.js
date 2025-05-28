@@ -2910,9 +2910,11 @@ app.post("/insert_lista_laboratorio", (req, res) => {
     registro_profissional,
     random,
     urgente,
+    data_pedido,
+    justificativa,
   } = req.body;
   var sql =
-    "INSERT INTO atendimento_lista_laboratorio (id_paciente, id_atendimento, data, status, id_profissional, nome_profissional, registro_profissional, random, urgente) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+    "INSERT INTO atendimento_lista_laboratorio (id_paciente, id_atendimento, data, status, id_profissional, nome_profissional, registro_profissional, random, urgente, data_pedido, justificativa) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
   pool.query(
     sql,
     [
@@ -2925,6 +2927,8 @@ app.post("/insert_lista_laboratorio", (req, res) => {
       registro_profissional,
       random,
       urgente,
+      data_pedido,
+      justificativa,
     ],
     (error, results) => {
       if (error)
@@ -2947,9 +2951,11 @@ app.post("/update_lista_laboratorio/:id", (req, res) => {
     registro_profissional,
     random,
     urgente,
+    data_pedido,
+    justificativa,
   } = req.body;
   var sql =
-    "UPDATE atendimento_lista_laboratorio SET id_paciente = $1, id_atendimento = $2, data = $3, status = $4, id_profissional = $5, nome_profissional = $6, registro_profissional = $7, random = $8, urgente = $9 WHERE id = $10";
+    "UPDATE atendimento_lista_laboratorio SET id_paciente = $1, id_atendimento = $2, data = $3, status = $4, id_profissional = $5, nome_profissional = $6, registro_profissional = $7, random = $8, urgente = $9, data_pedido = $10, justificativa = $11 WHERE id = $12";
   pool.query(
     sql,
     [
@@ -2962,6 +2968,8 @@ app.post("/update_lista_laboratorio/:id", (req, res) => {
       registro_profissional,
       random,
       urgente,
+      data_pedido,
+      justificativa,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
