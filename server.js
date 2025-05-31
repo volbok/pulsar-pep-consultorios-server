@@ -4057,7 +4057,7 @@ app.post("/insert_procedimento", (req, res) => {
         return res.json({ success: false, message: "ERRO DE CONEXÃO. " + error });
       }
       res.send(results);
-      return res.json(results);
+      // return res.json(results);
     }
   );
 });
