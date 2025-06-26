@@ -18,6 +18,7 @@ app.use(function (req, res, next) {
     "Access-Control-Request-Private-Network",
     "Access-Control-Allow-Private-Network",
     "Access-Control-Allow-Headers",
+    "Access-Control-Allow-Methods: *",
     "Origin, X-Requested-With, Content-Type, Accept",
     "Access-Control-Allow-Origin: *"
   );
