@@ -2554,7 +2554,7 @@ app.get("/delete_documento/:id", (req, res) => {
   var sql = "DELETE FROM atendimento_documentos WHERE id = $1";
   pool.query(sql, [id], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
-    res.send(results);
+    // res.send(results);
   });
 });
 
