@@ -801,6 +801,16 @@ app.get("/list_evolucoes/:id_atendimento", (req, res) => {
   });
 });
 
+// listar todas as evoluções do cliente logado.
+app.get("/list_evolucoes_cliente/:id_profissional", (req, res) => {
+  const id_profissional = parseInt(req.params.id_profissional);
+  var sql = "SELECT * FROM atendimento_documentos WHERE id_profissional = $1";
+  pool.query(sql, [id_atendimento], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
 // inserir evolução.
 app.post("/insert_evolucao", (req, res) => {
   const { id_atendimento, evolucao, data_evolucao, id_usuario } = req.body;
