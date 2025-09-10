@@ -805,7 +805,7 @@ app.get("/list_evolucoes/:id_atendimento", (req, res) => {
 app.get("/list_evolucoes_cliente/:id_profissional", (req, res) => {
   const id_profissional = parseInt(req.params.id_profissional);
   var sql = "SELECT * FROM atendimento_documentos WHERE id_profissional = $1";
-  pool.query(sql, [id_atendimento], (error, results) => {
+  pool.query(sql, [id_profissional], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     res.send(results);
   });
