@@ -3182,3 +3182,83 @@ app.get("/delete_faturamento_clinicas/:id", (req, res) => {
     res.send(results);
   });
 });
+
+// TAGS PARA TIPOS DE CONSULTAS.
+// listar todas as tags para um usuário.
+app.get("/list_tags_consultas/:id_usuario", (req, res) => {
+  const id_usuario = parseInt(req.params.id_usuario);
+  var sql =
+    "SELECT * FROM cliente_tags_consultas WHERE id_usuario = $1";
+  pool.query(sql, [id_usuario], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir tag.
+app.post("/insert_tag_consulta", (req, res) => {
+  const {
+    tag_consulta,
+    tag_cor,
+    tempo_consulta,
+    id_cliente,
+    id_usuario,
+  } = req.body;
+  var sql =
+    "INSERT INTO cliente_tags_consultas (tag_consulta, tag_cor, tempo_consulta, id_cliente, id_usuario) VALUES ($1, $2, $3, $4, $5)";
+  pool.query(
+    sql,
+    [
+      tag_consulta,
+      tag_cor,
+      tempo_consulta,
+      id_cliente,
+      id_usuario,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar tag.
+app.post("/update_tag_consulta/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    tag_consulta,
+    tag_cor,
+    tempo_consulta,
+    id_cliente,
+    id_usuario,
+  } = req.body;
+  var sql =
+    "UPDATE cliente_tags_consultas SET tag_consulta = $1, tag_cor = $2, tempo_consulta = $3, id_cliente = $4, id_usuario = $5 WHERE id = $6";
+  pool.query(
+    sql,
+    [
+      tag_consulta,
+      tag_cor,
+      tempo_consulta,
+      id_cliente,
+      id_usuario,
+      id,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// excluir tag.
+app.get("/delete_tag_consulta/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM cliente_tags_consultas WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
