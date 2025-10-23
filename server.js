@@ -1027,10 +1027,11 @@ app.post("/inserir_usuario", (req, res) => {
     primeiro_acesso,
     almoxarifado,
     uf_conselho,
-    codigo_cbo
+    codigo_cbo,
+    tarefas
   } = req.body;
   var sql =
-    "INSERT INTO usuarios (nome_usuario, dn_usuario, cpf_usuario, contato_usuario, senha, login, conselho, n_conselho, tipo_usuario, paciente, prontuario, laboratorio, farmacia, faturamento, usuarios, primeiro_acesso, almoxarifado, uf_conselho, codigo_cbo) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)";
+    "INSERT INTO usuarios (nome_usuario, dn_usuario, cpf_usuario, contato_usuario, senha, login, conselho, n_conselho, tipo_usuario, paciente, prontuario, laboratorio, farmacia, faturamento, usuarios, primeiro_acesso, almoxarifado, uf_conselho, codigo_cbo, tarefas) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)";
   pool.query(
     sql,
     [
@@ -1052,7 +1053,8 @@ app.post("/inserir_usuario", (req, res) => {
       primeiro_acesso,
       almoxarifado,
       uf_conselho,
-      codigo_cbo
+      codigo_cbo,
+      tarefas
     ],
     (error, results) => {
       if (error)
@@ -1084,10 +1086,11 @@ app.post("/update_usuario/:id_usuario", (req, res) => {
     primeiro_acesso,
     almoxarifado,
     uf_conselho,
-    codigo_cbo
+    codigo_cbo,
+    tarefas
   } = req.body;
   var sql =
-    "UPDATE usuarios SET nome_usuario = $1, dn_usuario = $2, cpf_usuario = $3, contato_usuario = $4, senha = $5, login = $6, conselho = $7, n_conselho = $8, tipo_usuario = $9, paciente = $10, prontuario = $11, laboratorio = $12, farmacia = $13, faturamento = $14, usuarios = $15, primeiro_acesso = $16, almoxarifado  = $17, uf_conselho = $18, codigo_cbo = $19 WHERE id_usuario = $20";
+    "UPDATE usuarios SET nome_usuario = $1, dn_usuario = $2, cpf_usuario = $3, contato_usuario = $4, senha = $5, login = $6, conselho = $7, n_conselho = $8, tipo_usuario = $9, paciente = $10, prontuario = $11, laboratorio = $12, farmacia = $13, faturamento = $14, usuarios = $15, primeiro_acesso = $16, almoxarifado  = $17, uf_conselho = $18, codigo_cbo = $19, tarefas = $20 WHERE id_usuario = $21";
   pool.query(
     sql,
     [
@@ -1110,6 +1113,7 @@ app.post("/update_usuario/:id_usuario", (req, res) => {
       almoxarifado,
       uf_conselho,
       codigo_cbo,
+      tarefas,
       id_usuario,
     ],
     (error, results) => {
@@ -1130,6 +1134,7 @@ app.get("/delete_usuario/:id_usuario", (req, res) => {
   });
 });
 
+/*
 app.post("/inserir_usuario", (req, res) => {
   const {
     nome_usuario,
@@ -1162,6 +1167,7 @@ app.post("/inserir_usuario", (req, res) => {
     }
   );
 });
+*/
 
 // TRIAGEM/CHAMADAS PARA CONSULTA
 // listar registros de triagem/chamada para consulta.
