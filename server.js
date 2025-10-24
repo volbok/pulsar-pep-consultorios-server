@@ -101,6 +101,7 @@ app.post("/checknomeusuario", (req, res) => {
     const almoxarifado = x.map((item) => item.almoxarifado).pop();
     const uf_conselho = x.map((item) => item.uf_conselho).pop();
     const codigo_cbo = x.map((item) => item.codigo_cbo).pop();
+    const tarefas = x.map((item) => item.tarefas).pop();
     res.json({
       id: id,
       nome: nome,
@@ -122,6 +123,7 @@ app.post("/checknomeusuario", (req, res) => {
       almoxarifado: almoxarifado,
       uf_conselho: uf_conselho,
       codigo_cbo: codigo_cbo,
+      tarefas: tarefas,
     });
   });
 });
@@ -161,6 +163,11 @@ app.post("/checkusuario", (req, res) => {
     const farmacia = x.map((item) => item.farmacia).pop();
     const faturamento = x.map((item) => item.faturamento).pop();
     const usuarios = x.map((item) => item.usuarios).pop();
+    const primeiro_acesso = x.map((item) => item.primeiro_acesso).pop();
+    const almoxarifado = x.map((item) => item.almoxarifado).pop();
+    const uf_conselho = x.map((item) => item.uf_conselho).pop();
+    const codigo_cbo = x.map((item) => item.codigo_cbo).pop();
+    const tarefas = x.map((item) => item.tarefas).pop();
     if (x.length > 0) {
       const token = jwt.sign({ id }, process.env.SECRET, {
         expiresIn: 1800, // expira em 30 minutos.
@@ -182,6 +189,11 @@ app.post("/checkusuario", (req, res) => {
         farmacia: farmacia,
         faturamento: faturamento,
         usuarios: usuarios,
+        primeiro_acesso: primeiro_acesso,
+        almoxarifado: almoxarifado,
+        uf_conselho: uf_conselho,
+        codigo_cbo: codigo_cbo,
+        tarefas: tarefas,
       });
     } else {
       res.json({ auth: false });
