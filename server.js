@@ -1265,9 +1265,10 @@ app.post("/insert_documento", (req, res) => {
     profissional,
     conselho,
     id_profissional,
+    base64
   } = req.body;
   var sql =
-    "INSERT INTO atendimento_documentos (id_paciente, nome_paciente, id_atendimento, data, texto, status, tipo_documento, profissional, conselho, id_profissional) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
+    "INSERT INTO atendimento_documentos (id_paciente, nome_paciente, id_atendimento, data, texto, status, tipo_documento, profissional, conselho, id_profissional, base64) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
   pool.query(
     sql,
     [
@@ -1280,7 +1281,8 @@ app.post("/insert_documento", (req, res) => {
       tipo_documento,
       profissional,
       conselho,
-      id_profissional
+      id_profissional,
+      base64
     ],
     (error, results) => {
       if (error)
@@ -1302,10 +1304,11 @@ app.post("/update_documento/:id", (req, res) => {
     tipo_documento,
     profissional,
     conselho,
-    id_profissional
+    id_profissional,
+    base64,
   } = req.body;
   var sql =
-    "UPDATE atendimento_documentos SET id_paciente = $1, nome_paciente = $2, id_atendimento = $3, data = $4, texto = $5, status = $6, tipo_documento = $7, profissional = $8, conselho = $9, id_profissional = $10 WHERE id = $11";
+    "UPDATE atendimento_documentos SET id_paciente = $1, nome_paciente = $2, id_atendimento = $3, data = $4, texto = $5, status = $6, tipo_documento = $7, profissional = $8, conselho = $9, id_profissional = $10, base64 = $11 WHERE id = $12";
   pool.query(
     sql,
     [
@@ -1319,6 +1322,7 @@ app.post("/update_documento/:id", (req, res) => {
       profissional,
       conselho,
       id_profissional,
+      base64,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
