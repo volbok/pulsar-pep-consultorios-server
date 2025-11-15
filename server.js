@@ -1324,6 +1324,12 @@ app.get("/delete_documento/:id", (req, res) => {
   });
 });
 
+// endpoint para baixar cms de documento assinado eletronicamente.
+app.get("/baixar_ps7/:ps7", (req, res) => {
+  const cms = req.params.cms;
+  res.send('https://pulsar-pep-consultorios-server.up.railway.app/' + cms);
+});
+
 // MODELO DE DOCUMENTOS.
 // modelos personalizados de receita médica e demais documentos, criados pelos usuários, que podem ser resgatados para edição de novos documentos.
 // listar documentos.
