@@ -1325,10 +1325,20 @@ app.get("/delete_documento/:id", (req, res) => {
 });
 
 // endpoint para baixar cms de documento assinado eletronicamente.
-app.post("/baixar_p7s", (req, res) => {
-  const { ps7file } = req.body;
-  res.json({
-    url: `https://pulsar-pep-consultorios-server.up.railway.app/p7s/${ps7file}`
+app.post("/baixar_p7s", async (req, res) => {
+  const { id } = req.body;
+
+  // selecionando no banco de dados o documento que armazena o cms.
+  var sql = "SELECT * FROM atendimento_documentos WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    let cms = results.map(item => item.cms);
+    // criando o documento p7s para retornar ao front via url pública.
+    const buffer = Buffer.from(cms, "base64");
+    res.setHeader("Content-Type", "application/pkcs7-signature");
+    res.setHeader("Content-Disposition", `attachment; filename="${id}.p7s"`);
+    return res.send(buffer);
+
   });
 });
 
