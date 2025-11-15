@@ -1325,8 +1325,8 @@ app.get("/delete_documento/:id", (req, res) => {
 });
 
 // endpoint para baixar cms de documento assinado eletronicamente.
-app.post("/baixar_p7s", async (req, res) => {
-  const { id } = req.body;
+app.get("/baixar_p7s", async (req, res) => {
+  const { id } = req.query;
 
   // selecionando no banco de dados o documento que armazena o cms.
   var sql = "SELECT * FROM atendimento_documentos WHERE id = $1";
