@@ -1333,7 +1333,7 @@ app.get("/baixar_ps7/:ps7", (req, res) => {
 app.post("/baixar_p7s"), (req, res) => {
   const { ps7file } = req.body;
   res.json({
-    url: `https://seuservidor.com/p7s/${ps7file}`
+    url: `https://pulsar-pep-consultorios-server.up.railway.app/p7s/${ps7file}`
   });
 };
 
