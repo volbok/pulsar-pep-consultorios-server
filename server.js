@@ -1333,6 +1333,7 @@ app.get("/baixar_p7s", async (req, res) => {
   pool.query(sql, [id], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     console.log(results);
+    res.send(results);
 
     /*
     let cms = results.map(item => item.cms);
