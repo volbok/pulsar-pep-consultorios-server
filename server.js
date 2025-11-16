@@ -1333,19 +1333,12 @@ app.get("/baixar_p7s", async (req, res) => {
   pool.query(sql, [id], (error, results) => {
     if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
     console.log(results);
-    
-    
-    let cms = results.rows.map(item => item.cms);
-    res.send(cms);
-    
-    /*
     // criando o documento p7s para retornar ao front via url pública.
+    let cms = results.rows.map(item => item.cms).pop();
     const buffer = Buffer.from(cms, "base64");
     res.setHeader("Content-Type", "application/pkcs7-signature");
     res.setHeader("Content-Disposition", `attachment; filename="${id}.p7s"`);
     return res.send(buffer);
-    */
-
   });
 });
 
