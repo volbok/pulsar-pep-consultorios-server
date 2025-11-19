@@ -3122,9 +3122,11 @@ app.post("/insert_faturamento_clinicas", (req, res) => {
     codigo_tuss,
     nome_tuss,
     data_registro,
+    xml,
+    guia_pdf,
   } = req.body;
   var sql =
-    "INSERT INTO faturamento_clinicas (cliente_id, cliente_nome, atendimento_id, procedimento_id, data_pagamento, data_vencimento, parcela, forma_pagamento, status_pagamento, valor_pagamento, id_operadora, codigo_operadora, codigo_tuss, nome_tuss, data_registro) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)";
+    "INSERT INTO faturamento_clinicas (cliente_id, cliente_nome, atendimento_id, procedimento_id, data_pagamento, data_vencimento, parcela, forma_pagamento, status_pagamento, valor_pagamento, id_operadora, codigo_operadora, codigo_tuss, nome_tuss, data_registro, xml, guia_pdf) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)";
   pool.query(
     sql,
     [
@@ -3142,7 +3144,9 @@ app.post("/insert_faturamento_clinicas", (req, res) => {
       codigo_operadora,
       codigo_tuss,
       nome_tuss,
-      data_registro
+      data_registro,
+      xml,
+      guia_pdf,
     ],
     (error, results) => {
       if (error)
@@ -3170,10 +3174,12 @@ app.post("/update_faturamento_clinicas/:id", (req, res) => {
     codigo_operadora,
     codigo_tuss,
     nome_tuss,
-    data_registro
+    data_registro,
+    xml,
+    guia_pdf,
   } = req.body;
   var sql =
-    "UPDATE faturamento_clinicas SET cliente_id = $1, cliente_nome = $2, atendimento_id = $3, procedimento_id = $4, data_pagamento = $5, data_vencimento = $6, parcela = $7, forma_pagamento = $8, status_pagamento = $9, valor_pagamento = $10, id_operadora = $11, codigo_operadora = $12, codigo_tuss = $13, nome_tuss = $14, data_registro = $15 WHERE id = $16";
+    "UPDATE faturamento_clinicas SET cliente_id = $1, cliente_nome = $2, atendimento_id = $3, procedimento_id = $4, data_pagamento = $5, data_vencimento = $6, parcela = $7, forma_pagamento = $8, status_pagamento = $9, valor_pagamento = $10, id_operadora = $11, codigo_operadora = $12, codigo_tuss = $13, nome_tuss = $14, data_registro = $15, xml = $16, guia_pdf = $17 WHERE id = $18";
   pool.query(
     sql,
     [
@@ -3192,6 +3198,8 @@ app.post("/update_faturamento_clinicas/:id", (req, res) => {
       codigo_tuss,
       nome_tuss,
       data_registro,
+      xml,
+      guia_pdf,
       id
     ], (error, results) => {
       if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
