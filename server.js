@@ -3576,3 +3576,106 @@ app.get("/delete_opcoes_prescricao/:id", (req, res) => {
     res.send(results);
   });
 });
+
+// ALMOXARIFADO.
+// listar todos os registros de itens do almoxarifado.
+app.get("/almoxarifado", (req, res) => {
+  var sql = "SELECT * FROM almoxarifado";
+  pool.query(sql, (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de opção de laboratório.
+app.post("/insert_almoxarifado", (req, res) => {
+  const {
+    categoria,
+    codigo_item,
+    nome_item,
+    qtde_item,
+    obs,
+    data_entrada,
+    codigo_fornecedor,
+    cnpj_fornecedor,
+    codigo_compra,
+    id_setor_origem,
+    id_setor_destino,
+    liberado,
+  } = req.body;
+  var sql =
+    "INSERT INTO almoxarifado (categoria, codigo_item, nome_item, qtde_item, obs, data_entrada, codigo_fornecedor, cnpj_fornecedor, codigo_compra, id_setor_origem, id_setor_destino, liberado) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)";
+  pool.query(
+    sql,
+    [
+      categoria,
+      codigo_item,
+      nome_item,
+      qtde_item,
+      obs,
+      data_entrada,
+      codigo_fornecedor,
+      cnpj_fornecedor,
+      codigo_compra,
+      id_setor_origem,
+      id_setor_destino,
+      liberado,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar registro de item do almoxarifado.
+app.post("/update_almoxarifado/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const {
+    categoria,
+    codigo_item,
+    nome_item,
+    qtde_item,
+    obs,
+    data_entrada,
+    codigo_fornecedor,
+    cnpj_fornecedor,
+    codigo_compra,
+    id_setor_origem,
+    id_setor_destino,
+    liberado,
+  } = req.body;
+  var sql =
+    "UPDATE almoxarifado SET categoria = $1, codigo_item = $2, nome_item = $3, qtde_item = $4, obs = $5, data_entrada = $6, codigo_fornecedor = $7, cnpj_fornecedor = $8, codigo_compra = $9, id_setor_origem = $10, id_setor_destino = $11, liberado = $12 WHERE id = $13";
+  pool.query(
+    sql,
+    [
+      categoria,
+      codigo_item,
+      nome_item,
+      qtde_item,
+      obs,
+      data_entrada,
+      codigo_fornecedor,
+      cnpj_fornecedor,
+      codigo_compra,
+      id_setor_origem,
+      id_setor_destino,
+      liberado,
+      id
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir item de almoxarifado.
+app.get("/delete_almoxarifado/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM almoxarifado WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
