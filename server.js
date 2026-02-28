@@ -3679,3 +3679,242 @@ app.get("/delete_almoxarifado/:id", (req, res) => {
     res.send(results);
   });
 });
+
+// MODELO DE PRESCRIÇÃO.
+// modelos personalizados de prescrição, criados pelos usuários, que podem ser resgatados para edição de novas prescrições.
+// listar modelos.
+app.get("/list_model_prescricao/:id_usuario", (req, res) => {
+  const id_usuario = parseInt(req.params.id_usuario);
+  var sql = "SELECT * FROM modelos_prescricao WHERE id_usuario = $1";
+  pool.query(sql, [id_usuario], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de documento.
+app.post("/insert_model_prescricao", (req, res) => {
+  const {
+    id_usuario,
+    nome_prescricao,
+    key_modelo,
+  } = req.body;
+  var sql =
+    "INSERT INTO modelos_prescricao (id_usuario, nome_prescricao, key_modelo) VALUES ($1, $2, $3)";
+  pool.query(
+    sql,
+    [
+      id_usuario,
+      nome_prescricao,
+      key_modelo
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+app.post("/update_model_prescricao/:id_modelo_prescricao", (req, res) => {
+  const id = parseInt(req.params.id_modelo_prescricao);
+  const {
+    id_usuario,
+    nome_prescricao,
+    key_modelo,
+  } = req.body;
+  var sql =
+    "UPDATE modelos_prescricao SET id_usuario = $1, nome_prescricao = $2, key_modelo = $3 WHERE id_modelo_prescricao = $4";
+  pool.query(
+    sql,
+    [
+      id_usuario,
+      nome_prescricao,
+      key_modelo,
+    ], (error, results) => {
+      if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    });
+});
+
+// excluir documento.
+app.get("/delete_model_prescricao/:id_modelo_prescricao", (req, res) => {
+  const id = parseInt(req.params.id_modelo_prescricao);
+  var sql = "DELETE FROM modelos_prescricao WHERE id_modelo_prescricao = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// ITENS DE MODELOS DE PRESCRIÇÃO.
+// listar itens de modelos de prescrição.
+app.get("/list_itens_model_prescricao/:id_modelo_prescricao", (req, res) => {
+  const id_modelo_prescricao = req.params.id_modelo_prescricao;
+  var sql = "SELECT * FROM modelos_prescricao_itens WHERE id_modelo_prescricao = $1";
+  pool.query(sql, [id_modelo_prescricao], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de item para modelo de prescrição.
+app.post("/insert_item_model_prescricao", (req, res) => {
+  const {
+    id_modelo_prescricao,
+    id_unidade,
+    id_paciente,
+    id_atendimento,
+    categoria,
+    codigo_item,
+    nome_item,
+    qtde_item,
+    via,
+    freq,
+    agora,
+    acm,
+    sn,
+    obs,
+    data,
+    id_componente_pai,
+    id_componente_filho,
+    id_prescricao,
+    id_pai
+  } = req.body;
+  var sql =
+    "INSERT INTO modelos_prescricao_itens (id_modelo_prescricao, id_unidade, id_paciente, id_atendimento, categoria, codigo_item, nome_item, qtde_item, via, freq, agora, acm, sn, obs, data, id_componente_pai, id_componente_filho, id_prescricao, id_pai) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19)";
+  pool.query(
+    sql,
+    [
+      id_modelo_prescricao,
+      id_unidade,
+      id_paciente,
+      id_atendimento,
+      categoria,
+      codigo_item,
+      nome_item,
+      qtde_item,
+      via,
+      freq,
+      agora,
+      acm,
+      sn,
+      obs,
+      data,
+      id_componente_pai,
+      id_componente_filho,
+      id_prescricao,
+      id_pai
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// excluir item de modelo de orescrição.
+app.get("/delete_item_model_prescricao/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM modelos_prescricao_itens WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO " + error });
+    res.send(results);
+  });
+});
+
+// APRAZAMENTO DOS ITENS DE PRESCRIÇÃO.
+// listar aprazamentos.
+app.get("/list_aprazamentos/:id_prescricao", (req, res) => {
+  const id_prescricao = parseInt(req.params.id_prescricao);
+  var sql = "SELECT * FROM atendimento_prescricoes_aprazamento WHERE id_prescricao = $1";
+  pool.query(sql, [id_prescricao], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
+
+// inserir registro de aprazamento.
+app.post("/insert_aprazamento", (req, res) => {
+  const {
+    id_atendimento,
+    id_prescricao,
+    id_componente_pai,
+    id_componente_filho,
+    nome,
+    qtde,
+    prazo,
+    dispensado,
+    codigo_item,
+  } = req.body;
+  var sql =
+    "INSERT INTO atendimento_prescricoes_aprazamento (id_atendimento, id_prescricao, id_componente_pai, id_componente_filho, nome, qtde, prazo, dispensado, codigo_item) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+  pool.query(
+    sql,
+    [
+      id_atendimento,
+      id_prescricao,
+      id_componente_pai,
+      id_componente_filho,
+      nome,
+      qtde,
+      prazo,
+      dispensado,
+      codigo_item,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// atualizar registro de aprazamento.
+app.post("/update_aprazamento/:id", (req, res) => {
+  const id = req.params.id;
+  const {
+    id_atendimento,
+    id_prescricao,
+    id_componente_pai,
+    id_componente_filho,
+    nome,
+    qtde,
+    prazo,
+    dispensado,
+    codigo_item,
+  } = req.body;
+  var sql =
+    "UPDATE atendimento_prescricoes_aprazamento SET id_atendimento = $1, id_prescricao = $2, id_componente_pai = $3, id_componente_filho = $4, nome = $5, qtde = $6, prazo = $7, dispensado = $8, codigo_item = $9 WHERE id = $10";
+  pool.query(
+    sql,
+    [
+      id_atendimento,
+      id_prescricao,
+      id_componente_pai,
+      id_componente_filho,
+      nome,
+      qtde,
+      prazo,
+      dispensado,
+      codigo_item,
+      id,
+    ],
+    (error, results) => {
+      if (error)
+        return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+      res.send(results);
+    }
+  );
+});
+
+// excluir aprazamento.
+app.get("/delete_aprazamento/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  var sql = "DELETE FROM atendimento_prescricoes_aprazamento WHERE id = $1";
+  pool.query(sql, [id], (error, results) => {
+    if (error) return res.json({ success: false, message: "ERRO DE CONEXÃO." });
+    res.send(results);
+  });
+});
